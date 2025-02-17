@@ -1,0 +1,6 @@
+#bg-header {
+    background-image: url('../../assets/bg_image.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 640px;
+}
