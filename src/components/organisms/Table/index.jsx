@@ -18,10 +18,10 @@ const TableData = ({ data }) => {
 
   return (
     <div className="p-6 bg-blue-300">
-      
-        <div className="w-full ">
-          <TableHeader />
-        </div>
+
+      <div className="w-full ">
+        <TableHeader />
+      </div>
       <div className="flex justify-between items-center bg-white">
 
         {/* search */}
@@ -41,9 +41,9 @@ const TableData = ({ data }) => {
 
       </div>
 
-        <div className="flex gap-6 bg-white">
-          <StatusFilter />
-        </div>
+      <div className="flex gap-6 bg-white">
+        <StatusFilter />
+      </div>
 
       <div ref={tableRef} className="overflow-x-auto">
         <table className="table-auto w-full border-b border-slate-300 bg-white text-nowrap" style={{ tableLayout: 'auto' }}>
@@ -58,7 +58,11 @@ const TableData = ({ data }) => {
                           column === "birthDate" ? "Tanggal Lahir" :
                             column === "address" ? "Alamat Tempat Tinggal" :
                               column === "parentPhone" ? "No. Telepon Orang Tua" :
-                                column}
+                                column === "akte" ? "Scan Akta Kelahiran" :
+                                  column === "familyRegister" ? "Scan Kartu Keluarga" :
+                                    column === "tkCertificate" ? "Scan Ijazah TK" :
+                                      column === "photo" ? "Pas Foto 3x4" :
+                                        column}
                 </th>
               ))}
             </tr>
