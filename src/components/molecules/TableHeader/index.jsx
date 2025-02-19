@@ -4,14 +4,18 @@ import { ArrowDownTrayIcon, CalendarDateRangeIcon } from '@heroicons/react/24/ou
 
 export const TableHeader = ({ totalPendaftar, tahunAjaran }) => {
   return (
-    <div className="flex justify-between items-center bg-white p-4 shadow-md rounded-lg">
-        <div className="flex items-center space-x-2">
+    <div className="flex bg-white">
+        <div className="w-full flex items-center space-x-2 gap-4 justify-between"> 
+
+          <div className="w-full flex gap-2 ">
         <span className="font-semibold text-lg">Jumlah Pendaftar:</span>
         <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
           {totalPendaftar} Siswa
         </span>
 
-        <div className="">
+          </div>
+
+        <div className="w-full flex items-center justify-end gap-3 ">
 
           <ButtonIcon id="download-button"
           color="white" 
@@ -28,7 +32,7 @@ export const TableHeader = ({ totalPendaftar, tahunAjaran }) => {
           Icon={CalendarDateRangeIcon}
           iconPosition="left"
           className="border border-gray-300 px-4 py-2 rounded-md">
-        {tahunAjaran}
+        {/* {tahunAjaran} */} Tahun Ajaran 2024/2025
       </ButtonIcon>
 
         </div>

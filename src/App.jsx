@@ -8,6 +8,7 @@ import RegistrasiForm from './pages/RegistrasiForm'
 import { Pendaftaran } from './pages/Pendaftaran'
 import { CekStatus } from './pages/CekStatus'
 import { StatusPendaftaran } from './pages/StatusPendaftaran'
+import { ButkiPendaftaran } from './components/organisms/ButkiPendaftaran'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path='/pendaftaran' element={<Pendaftaran />} />
         <Route path='/cek-status' element={<CekStatus />} />
         <Route path='/status-pendaftaran' element={<StatusPendaftaran />} />
+        <Route path='/bukti-pendaftaran' element={<ButkiPendaftaran />} />
 
       </Routes>
     </BrowserRouter>

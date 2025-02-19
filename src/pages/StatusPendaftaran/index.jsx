@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import StatusLulus from '../../assets/StatusLolos.png'
 import Navbar from '../../components/organisms/NavigasiBar'
+import StatusGagal from '../../assets/StatusGagal.png'
 
 export const StatusPendaftaran = () => {
+    const [isLulus, setIsLulus] = useState(false)
+
+
     return (
         <div className="w-full h-full flex items-center justify-center overflow-x-hidden px-[100px] py-20 bg-slate-100">
 
@@ -24,14 +28,26 @@ export const StatusPendaftaran = () => {
                     <hr />
                     <p>Nama Lengkap</p>
                 </div>
+                {isLulus ?
+                    <div className="flex flex-col items-center justify-center">
+                        <img src={StatusLulus} alt="Status Lulus" />
+                    </div> :
+                    <div className="flex flex-col items-center justify-center">
+                        <img src={StatusGagal} alt="Status Lulus" />
+                    </div> 
 
-                <div className="flex flex-col items-center justify-center">
-                    <img src={StatusLulus} alt="Status Lulus" />
-                </div>
+                }
 
+                {isLulus ? 
                 <div className="text-center w-full flex flex-col items-center justify-center">
                     <p>Selamat Anda dinyatakan Lolos dalam seleksi Penerimaan Peserta Didik Baru (PPDB) SD XYZ Tahun Ajaran 2024/2025</p>
+                </div> :
+                <div className="text-center w-full flex flex-col items-center justify-center">
+                    <p>Maaf, Anda dinyatakan Tidak Lolos dalam seleksi Penerimaan Peserta Didik Baru (PPDB) SD XYZ Tahun Ajaran 2024/2025</p>
                 </div>
+                
+            }
+
 
             </div>
 

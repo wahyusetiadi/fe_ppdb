@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { ButtonIcon } from '../../molecules/ButtonIcon';
 import { StatusFilter } from '../../molecules/StatusFilter/index,';
 import { TableHeader } from '../../molecules/TableHeader';
+import { TableSearch } from '../../molecules/TableSearch';
 
 
 const TableData = ({ data }) => {
@@ -17,29 +18,19 @@ const TableData = ({ data }) => {
   }, [data]);
 
   return (
-    <div className="p-6 bg-blue-300">
+    <div className="p-8 bg-white">
 
-      <div className="w-full ">
+      <div className='p-'>
+
+      </div>
+
+      <div className=" ">
         <TableHeader />
       </div>
-      <div className="flex justify-between items-center bg-white">
 
-        {/* search */}
-        <div className="w-full flex flex-col justify-center py-3 px-4  gap-2.5">
-          <div className="w-[400px] border border-slate-300 flex gap-4 items-center  rounded-lg focus-within:ring-2 focus-within:ring-blue-500">
-            <MagnifyingGlassIcon className="w-4 h-4 text-gray-500 ml-3" />
-            <input type="text" className='w-full p-2 pl-0 pr-4  focus:outline-none text-sm' placeholder='Cari Siswa..' />
-          </div>
-        </div>
-
-        {/* 
-      button */}
-        <div className=" flex gap-3 text-nowrap">
-          <ButtonIcon color="SecondaryBlack" textColor="text-black" className={'px-5'} Icon={AdjustmentsVerticalIcon}>Urutkan</ButtonIcon>
-          <ButtonIcon color="primary" textColor="text-white" className={'px-6 '} Icon={PlusIcon}>Tambahkan Data</ButtonIcon>
-        </div>
-
-      </div>
+     <div className="">
+      <TableSearch />
+     </div>
 
       <div className="flex gap-6 bg-white">
         <StatusFilter />
