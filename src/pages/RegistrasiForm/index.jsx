@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../../components/organisms/NavigasiBar';
+import { Link } from 'react-router-dom';
 
 const RegistrasiForm = () => {
   const [gender, setGender] = useState('');
@@ -147,7 +148,9 @@ const RegistrasiForm = () => {
 
             {/* Button Kirim */}
             <div className=" text-white font-bold">
+              <Link to="/pendaftaran">
               <button className='px-20 py-4 bg-blue-500 rounded-lg cursor-pointer'>Kirim Formulir</button>
+              </Link>
             </div>
           </div>
         </div>

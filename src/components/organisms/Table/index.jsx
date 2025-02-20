@@ -31,7 +31,7 @@ const TableData = ({ data, showTableHeader = false, showTableSearch = false , sh
 )}
 
 {showTableSearch && (
-     <div className="">
+     <div className=" pt-10">
       <TableSearch />
      </div>
 
@@ -65,6 +65,8 @@ const TableData = ({ data, showTableHeader = false, showTableSearch = false , sh
                                         column}
                 </th>
               ))}
+              <th className="px-6 py-4 text-left font-semibold"> Status</th>  {/* KODE BARU */}
+              <th className="px-6 py-4 text-left font-semibold"> Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -76,6 +78,16 @@ const TableData = ({ data, showTableHeader = false, showTableSearch = false , sh
                       {row[column]}
                     </td>
                   ))}
+                  <td className="py-2 px-6"> {/* KODE BARU */}
+              <span className={`px-3 py-1 rounded-full text-white ${row.status === "Menunggu" ? "bg-yellow-500" : row.status === "Diterima" ? "bg-green-500" : "bg-red-500"}`}>
+                 {row.status}
+              </span>
+            </td>
+            <td className="py-2 px-6 space-x-2"> {/* KODE BARU */}
+              <button className="px-3 py-1 bg-blue-500 text-white rounded"> Edit</button>
+              <button className="px-3 py-1 bg-yellow-500 text-white rounded"> Detail</button>
+              <button className="px-3 py-1 bg-red-500 text-white rounded"> Hapus</button>
+            </td>
                 </tr>
               ))
             ) : (

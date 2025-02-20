@@ -63,14 +63,16 @@ const Navbar = ({
           altText={"Edunex"}
         />
       )}
-      
+
       <div className="flex text-nowrap w-fit gap-x-12 text-base font-semibold items-center justify-end cursor-pointer px-4 bg-inherit">
         {menuItems}
       </div>
 
       {showButton && (
         <div className="flex w-fit h-fit gap-4">
-          <button className="text-blue-600 font-semibold">Status Pendaftaran</button>
+          <Link to='/cek-status'>
+            <button className="text-blue-600 font-semibold cursor-pointer py-3">Status Pendaftaran</button>
+          </Link>
           <Link to='/formulir-pendaftaran'>
             <Button color="primary" textColor="text-white" className="px-6">
               Isi Formulir Pendaftaran

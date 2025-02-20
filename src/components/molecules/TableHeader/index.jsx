@@ -44,7 +44,7 @@ export const TableHeader = ({ totalPendaftar, tahunAjaran, title, showTotalSiswa
 
         </div>
       </div>
-      <hr />
+      <hr className='text-slate-300'/>
     </div>
   )
 }
