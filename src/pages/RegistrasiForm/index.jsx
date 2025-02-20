@@ -7,17 +7,11 @@ const RegistrasiForm = () => {
   return (
 
     <div className="w-full h-full flex items-center justify-center overflow-x-hidden px-[100px] py-20 bg-slate-100">
-      
-      <div className="">
-        <div className="">
-            <h1>Kembali</h1>
-        </div>
-
-        <div className="">
-          <h1>Tambah Data</h1>
-        </div>
+      <div className='absolute top-0 left-0 w-full z-[100]'>
+        <Navbar bgColor="bg-white" />
       </div>
-    
+
+      {/* dante code */}
       <div className="w-[1240px] rounded-xl p-10 flex flex-col gap-10 mt-16 bg-white">
         <div className="w-full flex flex-col gap-3">
           <h1 className='font-bold text-[28px]'>Formulir Pendaftaran</h1>

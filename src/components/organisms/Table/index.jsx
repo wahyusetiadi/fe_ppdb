@@ -6,7 +6,7 @@ import { TableHeader } from '../../molecules/TableHeader';
 import { TableSearch } from '../../molecules/TableSearch';
 
 
-const TableData = ({ data }) => {
+const TableData = ({ data, showTableHeader = false, showTableSearch = false , showTableFilter = false }) => {
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
   const tableRef = useRef(null);
 
@@ -23,18 +23,27 @@ const TableData = ({ data }) => {
       <div className='p-'>
 
       </div>
-
+{showTableHeader && (
       <div className=" ">
-        <TableHeader />
+        <TableHeader title="Jumlah Pendaftar" showTotalSiswa={true} ShowButtonAttribute={true}/>
       </div>
 
+)}
+
+{showTableSearch && (
      <div className="">
       <TableSearch />
      </div>
 
+)}
+
+
+{showTableFilter && (
       <div className="flex gap-6 bg-white">
         <StatusFilter />
       </div>
+
+)}
 
       <div ref={tableRef} className="overflow-x-auto">
         <table className="table-auto w-full border-b border-slate-300 bg-white text-nowrap" style={{ tableLayout: 'auto' }}>

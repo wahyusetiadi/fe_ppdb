@@ -53,9 +53,8 @@ const Navbar = ({
 
   return (
     <div
-      className={`flex flex-row items-center justify-between w-full px-[100px] ${
-        isDarkMode ? "bg-slate-800" : `${bgColor}`
-      }`}
+      className={`flex flex-row items-center justify-between w-full px-[100px] ${isDarkMode ? "bg-slate-800" : `${bgColor}`
+        }`}
     >
       {showLogo && (
         <LogoComponent
@@ -64,41 +63,18 @@ const Navbar = ({
           altText={"Edunex"}
         />
       )}
-
-      {isMobile ? (
-        <div className="flex w-full items-center justify-end">
-          {/* Burger Icon */}
-          <div
-            className={`burger ${isMenuOpen ? "open" : ""}`}
-            onClick={toggleDrawer}
-          >
-            <div className="burger-line"></div>
-            <div className="burger-line"></div>
-            <div className="burger-line"></div>
-          </div>
-        </div>
-      ) : (
-        <div className="flex text-nowrap w-fit gap-x-12 text-base font-semibold items-center justify-end cursor-pointer px-4 bg-inherit">
-          {menuItems}
-        </div>
-      )}
-      {/* Drawer Menu */}
-      {/* <div className={`drawer ${isMenuOpen ? "drawer-open" : "drawer-close"}`}>
-        <div
-          className={`flex flex-col items-center w-full pt-24 ${
-            isDarkMode ? "bg-slate-800" : "bg-slate-200"
-          }`}
-        >
-          {menuItems}
-        </div>
-      </div> */}
+      
+      <div className="flex text-nowrap w-fit gap-x-12 text-base font-semibold items-center justify-end cursor-pointer px-4 bg-inherit">
+        {menuItems}
+      </div>
 
       {showButton && (
-        <div className="w-fit h-fit">
+        <div className="flex w-fit h-fit gap-4">
+          <button className="text-blue-600 font-semibold">Status Pendaftaran</button>
           <Link to='/formulir-pendaftaran'>
-          <Button color="primary" textColor="text-white" className="px-6">
-            Isi Formulir Pendaftaran
-          </Button>
+            <Button color="primary" textColor="text-white" className="px-6">
+              Isi Formulir Pendaftaran
+            </Button>
           </Link>
         </div>
       )}

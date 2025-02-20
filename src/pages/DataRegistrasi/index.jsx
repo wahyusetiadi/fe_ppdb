@@ -27,7 +27,7 @@ export const DataRegistrasi = () => {
         <div className=''>
             <ContentLayout>
                 <div className="w-full">
-                    <TableData data={isData} />
+                    <TableData data={isData} showTableHeader={true} showTableSearch={true} showTableFilter={true} />
                 </div>
             </ContentLayout>
 

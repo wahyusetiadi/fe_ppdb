@@ -12,7 +12,7 @@ export const ContentLayout = ({ children }) => {
             <div className="flex">
                 <SideBar />
 
-                <div className="w-5/6 h-fit bg-slate-800 p-6 overflow-x-auto">
+                <div className="w-5/6 h-fit  p-6 overflow-x-auto">
                     {children}
                 </div>
             </div>

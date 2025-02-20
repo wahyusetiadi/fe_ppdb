@@ -8,7 +8,7 @@ import RegistrasiForm from './pages/RegistrasiForm'
 import { Pendaftaran } from './pages/Pendaftaran'
 import { CekStatus } from './pages/CekStatus'
 import { StatusPendaftaran } from './pages/StatusPendaftaran'
-import { ButkiPendaftaran } from './components/organisms/ButkiPendaftaran'
+import { ButkiPendaftaran } from './pages/ButkiPendaftaran'
 
 function App() {
 
