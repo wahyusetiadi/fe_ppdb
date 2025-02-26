@@ -4,7 +4,7 @@ import Navbar from '../../components/organisms/NavigasiBar'
 import StatusGagal from '../../assets/StatusGagal.png'
 
 export const StatusPendaftaran = () => {
-    const [isLulus, setIsLulus] = useState(false)
+    const [isLulus, setIsLulus] = useState(true)
 
 
     return (

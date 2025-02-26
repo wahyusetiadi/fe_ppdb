@@ -1,9 +1,48 @@
 import React, { useState } from 'react';
 import Navbar from '../../components/organisms/NavigasiBar';
 import { Link } from 'react-router-dom';
+import { createDataRegistration } from '../../api/api';
 
 const RegistrasiForm = () => {
-  const [gender, setGender] = useState('');
+  const [idRegistration, setIdRegistration] = useState('')
+  const [name, setName] = useState('')
+  const [gender, setGender] = useState('')
+  const [religion, setReligion] = useState('')
+  const [birthPlace, setBirthPlace] = useState('')
+  const [birthDate, setBirthDate] = useState('')
+  const [address, setAddress] = useState('')
+  const [parentPhone, setParentPhone] = useState('')
+  const [akte, setAkte] = useState(null)
+  const [familyRegister, setFamilyRegister] = useState(null)
+  const [tkCertificate, setTkCertificate] = useState(null)
+  const [foto, setFoto] = useState(null)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const payload = {
+      idRegistration: "20250221001",
+      name,
+      gender,
+      religion,
+      birthPlace,
+      birthDate,
+      address,
+      parentPhone,
+      akte,
+      familyRegister,
+      tkCertificate,
+      foto
+    }
+    try {
+      const result = await createDataRegistration(payload);
+      console.log('data berhasil dibuat', result);
+
+    } catch (err) {
+      console.error("error get api", err);
+      throw err;
+    }
+
+  }
 
   return (
 
@@ -19,13 +58,13 @@ const RegistrasiForm = () => {
           <div className="border border-b-0 border-slate-300"></div>
         </div>
 
-        <div className=" w-full grid grid-cols-2 gap-10">
+        <form onSubmit={handleSubmit} className=" w-full grid grid-cols-2 gap-10">
           {/* input kiri */}
           <div className="w-full flex flex-col gap-6">
             {/* Nama Lengkap */}
             <div className="w-full flex flex-col gap-2">
               <label className='text-lg font-bold'>Nama Lengkap</label>
-              <input type="text" className='w-full rounded-lg p-4 border border-slate-200' placeholder='Masukkan Nama Lengkap' />
+              <input value={name} onChange={(e) => setName(e.target.value)} type="text" className='w-full rounded-lg p-4 border border-slate-200' placeholder='Masukkan Nama Lengkap' />
             </div>
 
             <div className="w-full flex flex-col gap-2">
@@ -36,6 +75,7 @@ const RegistrasiForm = () => {
                     type="radio"
                     name="gender"
                     value="laki-laki"
+                    checked={gender === "laki-laki"}
                     className="mr-2 gap-2"
                     onChange={(e) => setGender(e.target.value)}
                   />
@@ -47,18 +87,19 @@ const RegistrasiForm = () => {
                     type="radio"
                     name="gender"
                     value="perempuan"
+                    checked={gender === "perempuan"}
                     className="mr-2 gap-2"
                     onChange={(e) => setGender(e.target.value)}
                   />
                   <span>Perempuan</span>
                 </div>
               </div>
-
             </div>
+
 
             <div className="w-full flex flex-col gap-2">
               <label className='text-lg font-bold'>Agama</label>
-              <select className=" p-4 gap-2.5 border border-slate-200 rounded-m  ">
+              <select value={religion} onChange={(e) => setReligion(e.target.value)} className=" p-4 gap-2.5 border border-slate-200 rounded-m  ">
                 <option value="">Pilih Agama</option>
                 <option value="islam">Islam</option>
                 <option value="kristen">Kristen</option>
@@ -71,18 +112,20 @@ const RegistrasiForm = () => {
 
             <div className="w-full flex flex-col gap-2">
               <label className='text-lg font-bold'>Tempat Lahir</label>
-              <input type="text" className='w-full rounded-lg p-4 border border-slate-200' placeholder='Masukkan Tempat Lahir' />
+              <input value={birthPlace} onChange={(e) => setBirthPlace(e.target.value)} type="text" className='w-full rounded-lg p-4 border border-slate-200' placeholder='Masukkan Tempat Lahir' />
             </div>
 
             <div className="w-full flex flex-col gap-2">
               <label className='text-lg font-bold'>Tanggal Lahir</label>
-              <input type="date"
+              <input value={birthDate} onChange={(e) => setBirthDate(e.target.value)} type="date"
                 className=' p-4 gap-2.5 border border-slate-200 rounded-md ' />
             </div>
 
             <div className="w-full flex flex-col gap-2">
               <label className='text-lg font-bold' >Alamat Tempat Tinggal</label>
               <textarea
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 placeholder="Masukkan Alamat Lengkap"
                 rows={4}
                 className="w-full p-4 gap-2.5 border border-slate-200 rounded-md"
@@ -95,17 +138,18 @@ const RegistrasiForm = () => {
             <div className="w-full flex flex-col gap-6">
               <div className="w-full flex flex-col gap-2">
                 <label className='text-lg font-bold'>No. Telepon Orang Tua</label>
-                <input type="text" className='w-full rounded-lg p-4 border border-slate-200' placeholder='Masukkan No. Telepon Orang Tua' />
+                <input value={parentPhone}
+                onChange={(e) => setParentPhone(e.target.value)} type="text" className='w-full rounded-lg p-4 border border-slate-200' placeholder='Masukkan No. Telepon Orang Tua' />
 
               </div>
 
               <div className="w-full flex flex-col gap-2">
                 <label className="font-bold text-lg">Scan Akta Kelahiran</label>
                 <label className="flex items-center border border-slate-200 rounded-md overflow-hidden w-full">
-                  <button type="button" className="bg-blue-500 text-white px-5 py-4 cursor-pointer">
+                  <span type="button" className="bg-blue-500 text-white px-5 py-4 cursor-pointer">
                     Choose file
-                  </button>
-                  <input type="file" className="hidden" />
+                  </span>
+                  <input value={akte} onChange={(e) => setAkte(e.target.value)} type="file" className="hidden" />
                   <span className="px-4 py-2 text-gray-500 flex-grow">Masukkan File</span>
                 </label>
               </div>
@@ -114,10 +158,10 @@ const RegistrasiForm = () => {
               <div className="w-full flex flex-col gap-2">
                 <label className="font-bold text-lg">Scan Kartu Keluarga</label>
                 <label className="flex items-center border border-slate-200 rounded-md overflow-hidden w-full">
-                  <button type="button" className="bg-blue-500 text-white px-5 py-4 cursor-pointer">
+                  <span type="button" className="bg-blue-500 text-white px-5 py-4 cursor-pointer">
                     Choose file
-                  </button>
-                  <input type="file" className="hidden" />
+                  </span>
+                  <input value={familyRegister} onChange={(e) => setFamilyRegister(e.target.value)} type="file" className="hidden" />
                   <span className="px-4 py-2 text-gray-500 flex-grow">Masukkan File</span>
                 </label>
               </div>
@@ -125,10 +169,10 @@ const RegistrasiForm = () => {
               <div className="w-full flex flex-col gap-2">
                 <label className="font-bold text-lg">Scan Ijazah TK</label>
                 <label className="flex items-center border border-slate-200 rounded-md overflow-hidden w-full">
-                  <button type="button" className="bg-blue-500 text-white px-5 py-4 cursor-pointer">
+                  <span type="button" className="bg-blue-500 text-white px-5 py-4 cursor-pointer">
                     Choose file
-                  </button>
-                  <input type="file" className="hidden" />
+                  </span>
+                  <input value={tkCertificate} onChange={(e) => setTkCertificate(e.target.value)} type="file" className="hidden" />
                   <span className="px-4 py-2 text-gray-500 flex-grow">Masukkan File</span>
                 </label>
               </div>
@@ -136,10 +180,10 @@ const RegistrasiForm = () => {
               <div className="w-full flex flex-col gap-2">
                 <label className="font-bold text-lg">Pas Foto 3x4 Latar Biru</label>
                 <label className="flex items-center border border-slate-200 rounded-md overflow-hidden w-full">
-                  <button type="button" className="bg-blue-500 text-white px-5 py-4 cursor-pointer">
+                  <span type="button" className="bg-blue-500 text-white px-5 py-4 cursor-pointer">
                     Choose file
-                  </button>
-                  <input type="file" className="hidden" />
+                  </span>
+                  <input value={foto} onChange={(e) => setFoto(e.target.value)} type="file" className="hidden" />
                   <span className="px-4 py-2 text-gray-500 flex-grow">Masukkan File</span>
                 </label>
               </div>
@@ -148,12 +192,12 @@ const RegistrasiForm = () => {
 
             {/* Button Kirim */}
             <div className=" text-white font-bold">
-              <Link to="/pendaftaran">
+              {/* <Link to="/pendaftaran"> */}
               <button className='px-20 py-4 bg-blue-500 rounded-lg cursor-pointer'>Kirim Formulir</button>
-              </Link>
+              {/* </Link> */}
             </div>
           </div>
-        </div>
+        </form>
       </div>
 
 

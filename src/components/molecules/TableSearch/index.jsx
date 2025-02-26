@@ -3,7 +3,7 @@ import React from 'react'
 import { ButtonIcon } from '../ButtonIcon'
 import { Link } from 'react-router-dom'
 
-export const TableSearch = () => {
+export const TableSearch = ({ searchQuery, onSearchQuery }) => {
   return (
     <div className=" flex justify-between items-center  bg-white">
 
@@ -11,7 +11,7 @@ export const TableSearch = () => {
       <div className="w-full flex flex-col justify-center py-3   gap-2.5">
         <div className="w-[400px] border border-slate-300 flex gap-4 items-center  rounded-lg focus-within:ring-2 focus-within:ring-blue-500">
           <MagnifyingGlassIcon className="w-4 h-4 text-gray-500 ml-3" />
-          <input type="text" className='w-full p-2 pl-0 pr-4  focus:outline-none text-sm' placeholder='Cari Siswa..' />
+          <input value={searchQuery} onChange={(e) =>  onSearchQuery(e.target.value)} type="text" className='w-full p-2 pl-0 pr-4  focus:outline-none text-sm' placeholder='Cari Siswa..' />
         </div>
       </div>
 

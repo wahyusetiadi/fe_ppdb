@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 export const StatusFilter = () => {
-    const [selectedStatus, setSelectedStatus] = useState('')
+    const [selectedStatus, setSelectedStatus] = useState('semua')
 
     const statuses = [
         {id: 'semua', label: 'Semua'},

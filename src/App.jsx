@@ -10,6 +10,7 @@ import { CekStatus } from './pages/CekStatus'
 import { StatusPendaftaran } from './pages/StatusPendaftaran'
 import { ButkiPendaftaran } from './pages/ButkiPendaftaran'
 import FormInput from './pages/FormInput'
+import { FormEdit } from './pages/FormEdit'
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
         <Route path='/status-pendaftaran' element={<StatusPendaftaran />} />
         <Route path='/bukti-pendaftaran' element={<ButkiPendaftaran />} />
         <Route path='/tambah-data' element={<FormInput />} />
+        <Route path='/edit-data/:id' element={<FormEdit />} />
 
       </Routes>
     </BrowserRouter>
