@@ -26,6 +26,7 @@ const FormInput = () => {
       setter(file.name);
     }
   };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {

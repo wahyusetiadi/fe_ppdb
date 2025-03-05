@@ -20,6 +20,7 @@ export const FormEdit = () => {
   const [tkCertificate, setTkCertificate] = useState(null);
   const [foto, setFoto] = useState(null);
   const [data, setData] = useState(null);
+  
   const navigate = useNavigate();
 
   useEffect(() => {

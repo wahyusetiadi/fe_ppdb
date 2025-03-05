@@ -1,7 +1,10 @@
 import {
   AdjustmentsVerticalIcon,
+  EyeIcon,
   MagnifyingGlassIcon,
+  PencilIcon,
   PlusIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 import React, { useEffect, useRef, useState } from "react";
 import { ButtonIcon } from "../../molecules/ButtonIcon";
@@ -10,6 +13,8 @@ import { TableHeader } from "../../molecules/TableHeader";
 import { TableSearch } from "../../molecules/TableSearch";
 import { Link, useNavigate } from "react-router-dom";
 import { Modals } from "../Modals";
+import { Pagination } from "../../molecules/Pagination";
+import { StatusSelector } from "../../molecules/StatusSelector";
 
 const TableData = ({
   data,
@@ -40,6 +45,8 @@ const TableData = ({
     address: "",
     parentPhone: "",
   });
+
+
 
   const [isOpenModals, setIsOpenModals] = useState(false);
   const openModals = () => {
@@ -82,22 +89,43 @@ const TableData = ({
     setFilteredData(filtered);
   };
 
-  const deleteItem = () => {
-    if (selectedItem) {
-      onDelete(selectedItem.id);
-      closeDeleteModal();
-    }
+  const handleSort = (key, order) => {
+    const sorted = [...data].sort((a, b) => {
+      return order === "asc"
+        ? a[key].localeCompare(b[key])
+        : b[key].localeCompare(a[key]);
+    });
+    setFilteredData(sorted);
   };
 
-  const openDeleteModal = (row) => {
+
+  const toggleDeleteModal = (row = null) => {
     setSelectedItem(row);
-    setIsDeleteOpen(true);
+    setIsDeleteOpen(!!row);
   };
+  
+  const deleteItem = () => {
+    if (!selectedItem) return;
+    onDelete(selectedItem.id);
+    toggleDeleteModal();
+  }
+  
+  // const deleteItem = () => {
+  //   if (selectedItem) {
+  //     onDelete(selectedItem.id);
+  //     closeDeleteModal();
+  //   }
+  // };
 
-  const closeDeleteModal = (row) => {
-    setSelectedItem(null);
-    setIsDeleteOpen(false);
-  };
+  // const openDeleteModal = (row) => {
+  //   setSelectedItem(row);
+  //   setIsDeleteOpen(true);
+  // };
+
+  // const closeDeleteModal = (row) => {
+  //   setSelectedItem(null);
+  //   setIsDeleteOpen(false);
+  // };
 
   return (
     <div className="p-8 bg-white">
@@ -114,7 +142,7 @@ const TableData = ({
 
       {showTableSearch && (
         <div className=" pt-10">
-          <TableSearch onSearchQuery={handleSearchChange} />
+          <TableSearch onSearchQuery={handleSearchChange} onSort={handleSort}/>
         </div>
       )}
 
@@ -181,28 +209,20 @@ const TableData = ({
                   <td className="py-2 px-6">
                     {" "}
                     {/* KODE BARU */}
-                    <span
-                      className={`px-3 py-1 rounded-full text-white ${
-                        row.status === "Menunggu"
-                          ? "bg-yellow-500"
-                          : row.status === "Diterima"
-                          ? "bg-green-500"
-                          : "bg-red-500"
-                      }`}
-                    >
-                      {row.status}
-                    </span>
+                    <StatusSelector />
                   </td>
-                  <td className="py-2 px-6 space-x-2">
-                    {" "}
+                  <td className="py-2 px-6">
                     {/* KODE BARU */}
+                    <div className="flex space-x-2">  
+                        
                     <button
                       onClick={() => {
                         console.log(`On edit Click ${row.id}`);
                         onEdit(row.id);
                       }}
-                      className="px-3 py-1 bg-blue-500 text-white rounded cursor-pointer"
+                      className="px-3 py-1 bg-blue-500 text-white rounded cursor-pointer flex items-center gap-2"
                     >
+                      <PencilIcon className="w-4 h-4" />
                       Edit
                     </button>
                     <button
@@ -210,21 +230,22 @@ const TableData = ({
                         console.log(`Click detail id: ${row.id}`);
                         handleDetailClick(row);
                       }}
-                      className="px-3 py-1 bg-yellow-500 text-white rounded cursor-pointer"
+                      className="px-3 py-1 bg-yellow-500 text-white rounded cursor-pointer flex items-center gap-2"
                     >
-                      {" "}
+                      <EyeIcon className="w-4 h-4" />
                       Detail
                     </button>
                     <button
                       onClick={() => {
                         console.log(`Click delete id: ${row.id}`);
-                        openDeleteModal(row);
+                        toggleDeleteModal(row);
                       }}
-                      className="px-3 py-1 bg-red-500 text-white rounded cursor-pointer"
+                      className="px-3 py-1 bg-red-500 text-white rounded cursor-pointer flex items-center gap-2"
                     >
-                      {" "}
+                      <TrashIcon className="w-4 h-4" />
                       Hapus
                     </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -252,7 +273,7 @@ const TableData = ({
                   <div
                     className={`w-16 h-16 max-md:w-11 max-md:h-11  rounded-full flex items-center justify-center`}
                   >
-                    A
+                    A 
                   </div>
                 </div>
                 <div className="w-full flex flex-col text-center items-center justify-center">
@@ -266,7 +287,7 @@ const TableData = ({
               </div>
               <div className="w-full flex gap-4 items-center justify-between">
                 <button
-                  onClick={closeDeleteModal}
+                  onClick={() => toggleDeleteModal()}
                   className="w-full px-10 py-3 max-md:text-xs max-md:px-7 border text-slate-600 text-base font-semibold border-slate-600 rounded-full"
                 >
                   Batal
@@ -299,6 +320,9 @@ const TableData = ({
             />
           </div>
         )}
+      </div>
+      <div className="py-[26.5px]">
+        <Pagination totalItems={10} itemsPerPage={10} />
       </div>
     </div>
   );

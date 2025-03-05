@@ -37,6 +37,7 @@ export const DataRegistrasi = () => {
   const handleEdit = (id) => {
     navigate(`/edit-data/${id}`);
   };
+  
   return (
     <div className="">
       <ContentLayout>

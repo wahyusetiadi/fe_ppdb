@@ -1,6 +1,6 @@
 import React from 'react'
 import { ButtonIcon } from '../ButtonIcon'
-import { ArrowDownTrayIcon, CalendarDateRangeIcon } from '@heroicons/react/24/outline'
+import { ArrowDownTrayIcon, CalendarDateRangeIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 
 export const TableHeader = ({ totalPendaftar, tahunAjaran, title, showTotalSiswa = false, ShowButtonAttribute = false }) => {
   return (
@@ -39,7 +39,7 @@ export const TableHeader = ({ totalPendaftar, tahunAjaran, title, showTotalSiswa
               Icon={CalendarDateRangeIcon}
               iconPosition="left"
               className="border border-gray-300 px-4 py-2 rounded-md">
-              {/* {tahunAjaran} */} Tahun Ajaran 2024/2025
+               Tahun Ajaran 2024/2025
             </ButtonIcon>
 
         </div>

@@ -1,6 +1,8 @@
 import axios from "axios";
 const API_URL = "http://localhost:3000";
 
+
+//read
 export const getAllData = async () => {
   try {
     const response = await axios.get("http://localhost:3000/registration");
@@ -12,6 +14,7 @@ export const getAllData = async () => {
   }
 };
 
+//edit and detail
 export const getDataById = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/registration/${id}`);
@@ -23,6 +26,7 @@ export const getDataById = async (id) => {
   }
 };
 
+//create
 export const createDataRegistration = async (payload) => {
   try {
     const response = await axios.post(
@@ -36,6 +40,7 @@ export const createDataRegistration = async (payload) => {
   }
 };
 
+//edit
 export const editDataRegistration = async (id, data) => {
   try {
     const response = await axios.put(
@@ -50,6 +55,7 @@ export const editDataRegistration = async (id, data) => {
   }
 };
 
+//delete
 export const deleteDataRegistration = async (id) => {
   try {
     const response = await axios.delete(`${API_URL}/registration/delete/${id}`);
