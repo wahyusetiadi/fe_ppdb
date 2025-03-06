@@ -46,8 +46,6 @@ const TableData = ({
     parentPhone: "",
   });
 
-
-
   const [isOpenModals, setIsOpenModals] = useState(false);
   const openModals = () => {
     setIsOpenModals(true);
@@ -98,18 +96,17 @@ const TableData = ({
     setFilteredData(sorted);
   };
 
-
   const toggleDeleteModal = (row = null) => {
     setSelectedItem(row);
     setIsDeleteOpen(!!row);
   };
-  
+
   const deleteItem = () => {
     if (!selectedItem) return;
     onDelete(selectedItem.id);
     toggleDeleteModal();
-  }
-  
+  };
+
   // const deleteItem = () => {
   //   if (selectedItem) {
   //     onDelete(selectedItem.id);
@@ -127,6 +124,29 @@ const TableData = ({
   //   setIsDeleteOpen(false);
   // };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [displayData, setDisplayData] = useState([]);
+
+  // Calculate which items to display based on current page and items per page
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setDisplayData(filteredData.slice(startIndex, endIndex));
+  }, [filteredData, currentPage, itemsPerPage]);
+
+  // Handle page changes
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page);
+    // If pageSize changed, it will be handled by the other handler
+  };
+
+  // Handle items per page changes
+  const handleItemsPerPageChange = (newSize) => {
+    setItemsPerPage(newSize);
+    // currentPage will be reset to 1 within the Pagination component
+  };
+
   return (
     <div className="p-8 bg-white">
       <div className="p-"></div>
@@ -142,7 +162,7 @@ const TableData = ({
 
       {showTableSearch && (
         <div className=" pt-10">
-          <TableSearch onSearchQuery={handleSearchChange} onSort={handleSort}/>
+          <TableSearch onSearchQuery={handleSearchChange} onSort={handleSort} />
         </div>
       )}
 
@@ -161,7 +181,11 @@ const TableData = ({
             <tr>
               {columns.map((column, index) => (
                 <th key={index} className="px-6 py-4 text-left font-semibold">
-                  {column === "name"
+                  {column === "id"
+                    ? "No"
+                    : column === "idRegistration"
+                    ? "ID Pendaftaran"
+                    : column === "name"
                     ? "Nama Lengkap"
                     : column === "gender"
                     ? "Jenis Kelamin"
@@ -192,8 +216,8 @@ const TableData = ({
             </tr>
           </thead>
           <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((row, rowIndex) => (
+            {displayData.length > 0 ? (
+              displayData.map((row, rowIndex) => (
                 <tr
                   key={rowIndex}
                   className={rowIndex % 2 === 0 ? "bg-white" : "bg-slate-100"}
@@ -203,7 +227,11 @@ const TableData = ({
                       key={colIndex}
                       className="py-2 px-6 text-left w-auto text-medium"
                     >
-                      {row[column]}
+                      {column === "id"
+                        ? currentPage > 1
+                          ? rowIndex + 1 + (currentPage - 1) * itemsPerPage + 0
+                          : rowIndex + 1
+                        : row[column]}
                     </td>
                   ))}
                   <td className="py-2 px-6">
@@ -213,38 +241,37 @@ const TableData = ({
                   </td>
                   <td className="py-2 px-6">
                     {/* KODE BARU */}
-                    <div className="flex space-x-2">  
-                        
-                    <button
-                      onClick={() => {
-                        console.log(`On edit Click ${row.id}`);
-                        onEdit(row.id);
-                      }}
-                      className="px-3 py-1 bg-blue-500 text-white rounded cursor-pointer flex items-center gap-2"
-                    >
-                      <PencilIcon className="w-4 h-4" />
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        console.log(`Click detail id: ${row.id}`);
-                        handleDetailClick(row);
-                      }}
-                      className="px-3 py-1 bg-yellow-500 text-white rounded cursor-pointer flex items-center gap-2"
-                    >
-                      <EyeIcon className="w-4 h-4" />
-                      Detail
-                    </button>
-                    <button
-                      onClick={() => {
-                        console.log(`Click delete id: ${row.id}`);
-                        toggleDeleteModal(row);
-                      }}
-                      className="px-3 py-1 bg-red-500 text-white rounded cursor-pointer flex items-center gap-2"
-                    >
-                      <TrashIcon className="w-4 h-4" />
-                      Hapus
-                    </button>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => {
+                          console.log(`On edit Click ${row.id}`);
+                          onEdit(row.id);
+                        }}
+                        className="px-3 py-1 bg-blue-500 text-white rounded cursor-pointer flex items-center gap-2"
+                      >
+                        <PencilIcon className="w-4 h-4" />
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          console.log(`Click detail id: ${row.id}`);
+                          handleDetailClick(row);
+                        }}
+                        className="px-3 py-1 bg-yellow-500 text-white rounded cursor-pointer flex items-center gap-2"
+                      >
+                        <EyeIcon className="w-4 h-4" />
+                        Detail
+                      </button>
+                      <button
+                        onClick={() => {
+                          console.log(`Click delete id: ${row.id}`);
+                          toggleDeleteModal(row);
+                        }}
+                        className="px-3 py-1 bg-red-500 text-white rounded cursor-pointer flex items-center gap-2"
+                      >
+                        <TrashIcon className="w-4 h-4" />
+                        Hapus
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -252,7 +279,7 @@ const TableData = ({
             ) : (
               <tr>
                 <td
-                  colSpan={columns.length}
+                  colSpan={columns.length + 2}
                   className="py-4 px-6 text-center text-gray-500"
                 >
                   Tidak ada data
@@ -273,7 +300,7 @@ const TableData = ({
                   <div
                     className={`w-16 h-16 max-md:w-11 max-md:h-11  rounded-full flex items-center justify-center`}
                   >
-                    A 
+                    A
                   </div>
                 </div>
                 <div className="w-full flex flex-col text-center items-center justify-center">
@@ -322,7 +349,12 @@ const TableData = ({
         )}
       </div>
       <div className="py-[26.5px]">
-        <Pagination totalItems={10} itemsPerPage={10} />
+        <Pagination
+          totalItems={filteredData.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+          onItemsPerPageChange={handleItemsPerPageChange}
+        />
       </div>
     </div>
   );

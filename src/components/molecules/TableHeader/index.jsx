@@ -1,8 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ButtonIcon } from '../ButtonIcon'
 import { ArrowDownTrayIcon, CalendarDateRangeIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import { getAllData } from '../../../api/api'
 
-export const TableHeader = ({ totalPendaftar, tahunAjaran, title, showTotalSiswa = false, ShowButtonAttribute = false }) => {
+export const TableHeader = ({ tahunAjaran, title, showTotalSiswa = false, ShowButtonAttribute = false }) => {
+  const [countData, setCountData] = useState(0)
+  const fetchAllDataRegistrasi = async () => {
+      try {
+        const data = await getAllData();
+        console.log("dataGet", data.length);
+  
+        setCountData(data.length);
+      } catch (err) {
+        console.error("error fetching data");
+        throw err;
+      }
+    };
+
+    useEffect(() => {
+        fetchAllDataRegistrasi();
+      }, []);
   return (
     <div className="flex flex-col gap-2 bg-white">
       <div className="w-full flex items-center space-x-2 gap-4 justify-between">
@@ -11,7 +28,7 @@ export const TableHeader = ({ totalPendaftar, tahunAjaran, title, showTotalSiswa
           <span className="font-semibold text-lg">{title}</span>
           {showTotalSiswa && (
             <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
-              {totalPendaftar} Siswa
+              {countData} Siswa
             </span>
 
           )}

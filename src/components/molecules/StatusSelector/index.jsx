@@ -10,7 +10,7 @@ export const StatusSelector = () => {
     ];
   
     return (
-      <div className="relative inline-block">
+      <div className=" inline-block">
         <select
           className={`px-4 py-2 rounded-full text-white font-semibold focus:outline-none focus:ring ${statusOptions.find(opt => opt.value === status)?.color}`}
           value={status}
