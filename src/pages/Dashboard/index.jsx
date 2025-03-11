@@ -16,6 +16,7 @@ export const Dashboard = () => {
   const [totalDitolak, setTotalDitolak] = useState(0);
   const [totalTerdaftar, setTotalTerdaftar] = useState(0);
   const [totalDiterima, setTotalDiterima] = useState(0);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,9 +43,10 @@ fetchData();
   const fetchAllDataRegistrasi = async () => {
     try {
       const data = await getAllData();
-      console.log("dataGet", data);
+      const filteredData = data.filter(item => item.status === "Menunggu");
+      console.log(filteredData);
 
-      setIsData(data);
+      setIsData(filteredData);
     } catch (err) {
       console.error("error fetching data");
       throw err;
@@ -129,6 +131,7 @@ fetchData();
         data={isData}
         onDelete={handleDelete}
         onEdit={handleEdit}
+        refreshData={fetchAllDataRegistrasi}
       />
     </ContentLayout>
   );

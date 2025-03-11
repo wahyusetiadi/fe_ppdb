@@ -25,6 +25,7 @@ const TableData = ({
   onDetail = () => {},
   onEdit = () => {},
   onUpdate = () => {},
+  refreshData
 }) => {
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
 
@@ -245,7 +246,7 @@ const TableData = ({
                     </td>
                   ))}
                   <td className="py-2 px-6">
-                    <StatusSelector id={row.id} onUpdate={onUpdate} />
+                    <StatusSelector id={row.id} onUpdate={refreshData} />
                   </td>
                   <td className="py-2 px-6">
                     {/* KODE BARU */}
