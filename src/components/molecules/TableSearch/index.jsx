@@ -35,7 +35,7 @@ export const TableSearch = ({ searchQuery, onSearchQuery, onSort }) => {
 
       {/* Buttons */}
       <div className="w-full flex gap-3 items-center justify-end text-nowrap">
-        <div className="relative">
+        <div className="">
           <button
             onClick={() => setShowSortOptions(!showSortOptions)}
             className="flex items-center gap-2 border border-slate-400 rounded-lg px-3 py-2"

@@ -65,3 +65,18 @@ export const deleteDataRegistration = async (id) => {
     throw err;
   }
 };
+
+export const statusDataRegistration = async (id, status) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/registration/${id}/status`,
+      { status }, // Mengirim status dalam request body
+      { headers: { "Content-Type": "application/json" } } // Pastikan format JSON
+    );
+    return response.data;
+  } catch (err) {
+    console.error("error status data", err);
+    throw err;
+  }
+};
+

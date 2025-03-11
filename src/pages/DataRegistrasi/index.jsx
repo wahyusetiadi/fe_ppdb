@@ -38,6 +38,17 @@ export const DataRegistrasi = () => {
     navigate(`/edit-data/${id}`);
   };
   
+  const handleUpdate = async () => {
+    try {
+      const data = await getAllData();
+      console.log("dataGet", data);
+
+      setIsData(data);
+    } catch (err) {
+      console.error("error fetching data");
+      throw err;
+    }
+  }
   return (
     <div className="">
       <ContentLayout>
@@ -49,6 +60,7 @@ export const DataRegistrasi = () => {
             showTableFilter={true}
             onDelete={handleDelete}
             onEdit={handleEdit}
+            onUpdate={handleUpdate}
           />
         </div>
       </ContentLayout>

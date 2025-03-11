@@ -1,14 +1,21 @@
 import React, { useState } from 'react'
 
-export const StatusFilter = () => {
+export const StatusFilter = ({ onStatusChange }) => {
     const [selectedStatus, setSelectedStatus] = useState('semua')
 
     const statuses = [
         {id: 'semua', label: 'Semua'},
-        {id: 'menunggu', label: 'Menunggu'},
-        {id: 'diterima', label: 'Diterima'},
-        {id: 'ditolak', label: 'Ditolak'},
+        {id: 'Menunggu', label: 'Menunggu'},
+        {id: 'Diterima', label: 'Diterima'},
+        {id: 'Ditolak', label: 'Ditolak'},
     ]
+
+    const handleStatusChange = (statusId) => {
+        setSelectedStatus(statusId);
+        if (onStatusChange) {
+            onStatusChange(statusId);
+        }
+    };
 
   return (
     <div className=" px-4 py-2 inline-flex items-center gap-4">
@@ -20,7 +27,7 @@ export const StatusFilter = () => {
                         name="status"
                         value={status.id}
                         checked={selectedStatus === status.id}
-                        onChange={() => setSelectedStatus(status.id)}
+                        onChange={() => handleStatusChange(status.id)}
                         className="accent-blue-500"
                     />
                     {status.label}

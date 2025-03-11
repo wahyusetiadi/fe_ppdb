@@ -24,6 +24,7 @@ const TableData = ({
   onDelete = () => {},
   onDetail = () => {},
   onEdit = () => {},
+  onUpdate = () => {},
 }) => {
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
 
@@ -147,6 +148,15 @@ const TableData = ({
     // currentPage will be reset to 1 within the Pagination component
   };
 
+  const handleStatusChange = (status) => {
+    if (status === 'semua') {
+      setFilteredData(data);
+    } else {
+      setFilteredData(data.filter(item => item.status === status));
+    }
+  };
+
+
   return (
     <div className="p-8 bg-white">
       <div className="p-"></div>
@@ -168,7 +178,7 @@ const TableData = ({
 
       {showTableFilter && (
         <div className="flex gap-6 bg-white">
-          <StatusFilter />
+          <StatusFilter onStatusChange={handleStatusChange} />
         </div>
       )}
 
@@ -235,9 +245,7 @@ const TableData = ({
                     </td>
                   ))}
                   <td className="py-2 px-6">
-                    {" "}
-                    {/* KODE BARU */}
-                    <StatusSelector />
+                    <StatusSelector id={row.id} onUpdate={onUpdate} />
                   </td>
                   <td className="py-2 px-6">
                     {/* KODE BARU */}

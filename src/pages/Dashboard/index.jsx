@@ -5,11 +5,39 @@ import { Cards } from "../../components/molecules/Cards";
 import TableData from "../../components/organisms/Table";
 import { Modals } from "../../components/organisms/Modals";
 import { deleteDataRegistration, getAllData } from "../../api/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { error } from "pdf-lib";
 
 export const Dashboard = () => {
   const [isData, setIsData] = useState([]);
   const navigate = useNavigate();
+
+  const [totalMenunggu, setTotalMenunggu] = useState(0);
+  const [totalDitolak, setTotalDitolak] = useState(0);
+  const [totalTerdaftar, setTotalTerdaftar] = useState(0);
+  const [totalDiterima, setTotalDiterima] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+    try {
+        const data = await getAllData();
+        const menunggu = data.filter(item => item.status === "Menunggu").length;
+        const ditolak = data.filter(item => item.status === "Ditolak").length;
+        const pendaftar = data.length;
+        const diterima = data.filter(item => item.status === "Diterima").length;
+
+        setTotalMenunggu(menunggu);
+        setTotalDitolak(ditolak);
+        setTotalTerdaftar(pendaftar);
+        setTotalDiterima(diterima);
+    } catch (err) {
+      console.error("Error Fetching Data", err);
+      
+    }
+  };
+
+fetchData();
+}, []);
 
   const fetchAllDataRegistrasi = async () => {
     try {
@@ -58,24 +86,28 @@ export const Dashboard = () => {
           <div className="grid grid-rows-2 gap-2">
             <Cards
               title={"Total Pendaftar"}
-              textItem={`${"200"} Siswa`}
+              showTotalPendaftar={true}
+              totalPendaftar={totalTerdaftar}
               className={"bg-slate-100 "}
             />
             <Cards
               title={"Siswa DIterima"}
-              textItem={`${"500"} Siswa`}
+              showTotalPendaftar={true}
+              totalPendaftar={totalDiterima}
               className={"bg-slate-100 "}
             />
           </div>
           <div className="grid grid-rows-2 gap-2">
             <Cards
               title={"Menunggu Proses"}
-              textItem={`${"120"} Siswa`}
+              showTotalPendaftar={true}
+              totalPendaftar={totalMenunggu}
               className={"bg-slate-100 "}
             />
             <Cards
               title={"Siswa Ditolak"}
-              textItem={`${"30"} Siswa`}
+              showTotalPendaftar={true}
+              totalPendaftar={totalDitolak}
               className={"bg-slate-100 "}
             />
           </div>
@@ -85,9 +117,12 @@ export const Dashboard = () => {
 
         <div className="w-full flex justify-between">
           <p>Menunggu Diproses</p>
+
+          <Link to="/data-registrasi">
           <button className="text-blue-600 cursor-pointer">
-            Lihat Semua Data{" "}
+            Lihat Semua Data
           </button>
+          </Link>
         </div>
       </div>
       <TableData
