@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ContentLayout } from "../../components/organisms/ContentLayout";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { editDataRegistration, getDataById } from "../../api/api";
 import { error } from "pdf-lib";
 
@@ -89,7 +89,9 @@ export const FormEdit = () => {
         <div className="w-[1240px] rounded-xl p-10 flex flex-col gap-10 m-6 bg-white">
           <div className="flex flex-col w-full gap-4">
             <div className="flex flex-col items-start ">
-              <button className="text-blue-600 font-bold">Kembali</button>
+              <Link to="/data-registrasi">  
+              <button className="text-blue-600 font-bold cursor-pointer">Kembali</button>
+              </Link>
             </div>
             <div className="flex items-center justify-center w-full">
               <h1 className="font-bold text-2xl">Edit Data</h1>

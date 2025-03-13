@@ -1,56 +1,85 @@
-import React, { useState } from 'react'
-import StatusLulus from '../../assets/StatusLolos.png'
-import Navbar from '../../components/organisms/NavigasiBar'
-import StatusGagal from '../../assets/StatusGagal.png'
+import React, { useEffect, useState } from "react";
+import StatusLulus from "../../assets/StatusLolos.png";
+import StatusGagal from "../../assets/StatusGagal.png";
+import StatusMenunggu from "../../assets/StatusMenunggu.png"
+import Navbar from "../../components/organisms/NavigasiBar";
+import { useParams } from "react-router-dom";
+import {  getDataByIdStatus } from "../../api/api";
 
 export const StatusPendaftaran = () => {
-    const [isLulus, setIsLulus] = useState(true)
+  const { id } = useParams();
+  const [data, setData] = useState(null);
+  const [status, setStatus] = useState("Menunggu");
 
+  useEffect(() => {
+    const fetchDataById = async () => {
+        try {
+            const result = await getDataByIdStatus(id);
+            console.log("DataId", result);
+            setData(result);
 
-    return (
-        <div className="w-full h-full flex items-center justify-center overflow-x-hidden px-[100px] py-20 bg-slate-100">
-
-            <div className="absolute top-0 left-0 w-full z-[100]">
-                <Navbar bgColor="bg-white" />
-            </div>
-
-            <div className="w-[840px] flex flex-col items-center justify-center gap-10">
-
-                <div className="text-center w-full flex flex-col items-center justify-center ">
-                    <h1 className='font-bold text-2xl'>Pengumuman Penerimaan Peserta Didik Baru
-                        SD XYZ Tahun Ajaran 2024/2025</h1>
-                </div>
-
-                <div className="w-full flex flex-col items-center justify-center">
-                    <p>ID Pendaftaran </p>
-                    <hr />
-                    <p>Tanggal Registrasi</p>
-                    <hr />
-                    <p>Nama Lengkap</p>
-                </div>
-                {isLulus ?
-                    <div className="flex flex-col items-center justify-center">
-                        <img src={StatusLulus} alt="Status Lulus" />
-                    </div> :
-                    <div className="flex flex-col items-center justify-center">
-                        <img src={StatusGagal} alt="Status Lulus" />
-                    </div> 
-
-                }
-
-                {isLulus ? 
-                <div className="text-center w-full flex flex-col items-center justify-center">
-                    <p>Selamat Anda dinyatakan Lolos dalam seleksi Penerimaan Peserta Didik Baru (PPDB) SD XYZ Tahun Ajaran 2024/2025</p>
-                </div> :
-                <div className="text-center w-full flex flex-col items-center justify-center">
-                    <p>Maaf, Anda dinyatakan Tidak Lolos dalam seleksi Penerimaan Peserta Didik Baru (PPDB) SD XYZ Tahun Ajaran 2024/2025</p>
-                </div>
-                
+            if (result.status === "Diterima") {
+                setStatus("Diterima");
+            } else if (result.status === "Ditolak") {
+                setStatus("Ditolak");
+            } else {
+                setStatus("Menunggu");
             }
+        } catch (err) {
+            console.error("Error fetching data", err);
+            
+        }
+    };
 
+    fetchDataById();
+  }, [id])
 
-            </div>
+  return (
+    <div className="w-full h-full flex items-center justify-center overflow-x-hidden px-[100px] py-20 bg-slate-100">
+      <div className="absolute top-0 left-0 w-full z-[100]">
+        <Navbar bgColor="bg-white" />
+      </div>
 
+      <div className="w-[840px] flex flex-col items-center justify-center gap-10">
+        <div className="text-center w-full flex flex-col items-center justify-center ">
+          <h1 className="font-bold text-2xl">
+            Pengumuman Penerimaan Peserta Didik Baru SD XYZ Tahun Ajaran
+            2024/2025
+          </h1>
         </div>
-    )
-}
+
+        
+        {data && (
+          <div className="w-full flex flex-col items-center justify-center">
+            <p>ID Pendaftaran: {data.idRegistration} </p>
+            <hr />
+            <p>Tanggal Registrasi: {data.dibuat_tanggal} || {data.dibuat_jam} </p>
+            <hr />
+            <p>Nama Lengkap: {data.name}</p>
+          </div>
+        )}
+
+        {status === "Diterima" && (
+          <div className="flex flex-col items-center justify-center">
+            <img src={StatusLulus} alt="Status Lulus" />
+            <p className="text-center">Selamat! Anda dinyatakan Lolos dalam seleksi PPDB SD XYZ Tahun Ajaran 2024/2025</p>
+          </div>
+        )}
+
+        {status === "Ditolak" && (
+          <div className="flex flex-col items-center justify-center">
+            <img src={StatusGagal} alt="Status Gagal" />
+            <p className="text-center">Maaf, Anda tidak lolos dalam seleksi PPDB SD XYZ Tahun Ajaran 2024/2025</p>
+          </div>
+        )}
+
+        {status === "Menunggu" && (
+          <div className="flex flex-col items-center justify-center">
+            <img src={StatusMenunggu} alt="Status Menunggu" />
+            <p className="text-center">Pendaftaran Anda Sedang Diproses, Silakan tunggu dan pantau status Anda secara berkala.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

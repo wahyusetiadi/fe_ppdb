@@ -16,8 +16,26 @@ export const Modals = ({
   familyRegister,
   tkCertificate,
   foto,
+  status,
   onCloseModal
 }) => {
+  
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Diterima":
+        return "bg-green-200 text-green-800";
+      case "Ditolak":
+        return "bg-red-200 text-red-800";
+      case "Menunggu":
+        return "bg-yellow-200 text-yellow-800";
+      default:
+        return "bg-gray-200 text-gray-800";
+    }
+  };
+
+  const statusColorClass = getStatusColor(status);
+
   return (
     <div className="w-[720px] flex flex-col gap-8 bg-white z-50 rounded-lg p-8">
       <div className="">
@@ -83,11 +101,9 @@ export const Modals = ({
           Hapus
         </button>
 
-        <div className="flex gap-2 items-center ">
+        <div className="flex gap-2 items-center w-fit ">
           <p className="font-bold">Status :</p>
-          <button className="bg-yellow-100 cursor-pointer py-1 px-5">
-            Menunggu
-          </button>
+        <input type="text" disabled value={status} className={`rounded-lg px-2 py-1 ${statusColorClass}`} />
         </div>
 
         <button className="bg-blue-100 cursor-pointer rounded-lg py-2 px-3">

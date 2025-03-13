@@ -38,7 +38,7 @@ export const TableSearch = ({ searchQuery, onSearchQuery, onSort }) => {
         <div className="">
           <button
             onClick={() => setShowSortOptions(!showSortOptions)}
-            className="flex items-center gap-2 border border-slate-400 rounded-lg px-3 py-2"
+            className="flex items-center gap-2 border border-slate-400 rounded-lg px-3 py-2 cursor-pointer"
           >
             <AdjustmentsVerticalIcon className=" size-6 text-2xl" /> Urutkan
           </button>

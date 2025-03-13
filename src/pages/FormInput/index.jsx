@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ContentLayout } from "../../components/organisms/ContentLayout";
 import { createDataRegistration } from "../../api/api";
 import { Link, useNavigate } from "react-router-dom";
-import { PDFDocument } from "pdf-lib";
 
 const FormInput = () => {
   const [idRegistration, setIdRegistration] = useState("");
@@ -26,11 +25,23 @@ const FormInput = () => {
       setter(file.name);
     }
   };
+
+  const generateRegistration = () => {
+    const date = new Date();
+    const randomNumber = Math.floor(Math.random() * 1000000);
+    return `${date.getFullYear()}${
+      date.getMonth() + 1
+    }${date.getDate()}${randomNumber}`;
+  };
+
+  useEffect(() => {
+    setIdRegistration(generateRegistration);
+  }, []);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
-      idRegistration: "20250221001",
+      idRegistration: idRegistration,
       name,
       gender,
       religion,

@@ -17,6 +17,18 @@ export const getAllData = async () => {
 //edit and detail
 export const getDataById = async (id) => {
   try {
+    const response = await axios.get(`${API_URL}/registration/edit/${id}`);
+    console.log("Get Data By ID", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error GET API");
+    throw error;
+  }
+};
+
+//status
+export const getDataByIdStatus = async (id) => {
+  try {
     const response = await axios.get(`${API_URL}/registration/${id}`);
     console.log("Get Data By ID", response.data);
     return response.data;
