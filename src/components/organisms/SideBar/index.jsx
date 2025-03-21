@@ -7,7 +7,7 @@ export const SideBar = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("token");
         navigate("/login")
     };
 

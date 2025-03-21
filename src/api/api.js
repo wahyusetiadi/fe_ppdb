@@ -39,11 +39,13 @@ export const getDataByIdStatus = async (id) => {
 };
 
 //create
-export const createDataRegistration = async (payload) => {
+export const createDataRegistration = async (formData) => {
   try {
     const response = await axios.post(
       `${API_URL}/registration/create`,
-      payload
+      formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      }
     );
     return response.data;
   } catch (err) {

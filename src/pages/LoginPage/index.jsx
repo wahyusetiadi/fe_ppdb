@@ -23,6 +23,7 @@ export const LoginPage = () => {
       });
 
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("username", res.data.user.username)
       navigate("/dashboard");
     } catch (err) {
       setError("Username atau Password salah!");

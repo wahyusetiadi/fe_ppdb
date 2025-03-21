@@ -22,7 +22,7 @@ const FormInput = () => {
   const handleFileChange = (setter) => (e) => {
     const file = e.target.files[0];
     if (file) {
-      setter(file.name);
+      setter(file);
     }
   };
 
@@ -35,29 +35,51 @@ const FormInput = () => {
   };
 
   useEffect(() => {
-    setIdRegistration(generateRegistration);
+    setIdRegistration(generateRegistration());
   }, []);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = {
-      idRegistration: idRegistration,
-      name,
-      gender,
-      religion,
-      birthPlace,
-      birthDate,
-      address,
-      parentPhone,
-      akte,
-      familyRegister,
-      tkCertificate,
-      foto,
-    };
+    // Validasi field yang tidak boleh kosong
+    if (
+      !name ||
+      !gender ||
+      !religion ||
+      !birthPlace ||
+      !birthDate ||
+      !address ||
+      !parentPhone
+    ) {
+      alert("Harap isi semua bidang yang wajib diisi!");
+      return;
+    }
+
+      // Validasi file upload (jika harus diisi)
+  if (!akte || !familyRegister || !tkCertificate || !foto) {
+    alert("Harap unggah semua dokumen yang diperlukan!");
+    return;
+  }
+
+    const formData = new FormData();
+    formData.set("idRegistration", idRegistration);
+    formData.set("name", name);
+    formData.set("gender", gender);
+    formData.set("religion", religion);
+    formData.set("birthPlace", birthPlace);
+    formData.set("birthDate", birthDate);
+    formData.set("address", address);
+    formData.set("parentPhone", parentPhone);
+    formData.set("akte", akte);
+    formData.set("familyRegister", familyRegister);
+    formData.set("tkCertificate", tkCertificate);
+    formData.set("foto", foto);
+
     try {
-      const result = await createDataRegistration(payload);
+      const result = await createDataRegistration(formData);
       console.log("data berhasil dibuat", result);
-      navigate("/data-registrasi");
+      setTimeout(() => {
+        navigate("/data-registrasi");
+      }, 1000);
     } catch (err) {
       console.error("error get api", err);
       throw err;
@@ -212,7 +234,7 @@ const FormInput = () => {
                       className="hidden"
                     />
                     <span className="px-4 py-2 text-gray-500 flex-grow">
-                      {akte ? akte : "Upload File"}
+                      {akte ? akte.name : "Upload File"}
                     </span>
                   </label>
                 </div>
@@ -234,7 +256,7 @@ const FormInput = () => {
                       className="hidden"
                     />
                     <span className="px-4 py-2 text-gray-500 flex-grow">
-                      {familyRegister ? familyRegister : "upload file"}
+                      {familyRegister ? familyRegister.name : "upload file"}
                     </span>
                   </label>
                 </div>
@@ -254,7 +276,7 @@ const FormInput = () => {
                       className="hidden"
                     />
                     <span className="px-4 py-2 text-gray-500 flex-grow">
-                      {tkCertificate ? tkCertificate : "upload file"}
+                      {tkCertificate ? tkCertificate.name : "upload file"}
                     </span>
                   </label>
                 </div>
@@ -276,7 +298,7 @@ const FormInput = () => {
                       className="hidden"
                     />
                     <span className="px-4 py-2 text-gray-500 flex-grow">
-                      {foto ? foto : "upload foto"}
+                      {foto ? foto.name : "upload foto"}
                     </span>
                   </label>
                 </div>

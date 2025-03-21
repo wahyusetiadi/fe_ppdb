@@ -353,6 +353,10 @@ const TableData = ({
               birthDate={selectedItem.birthDate}
               address={selectedItem.address}
               parentPhone={selectedItem.parentPhone}
+              akte={selectedItem.akte}
+              familyRegister={selectedItem.familyRegister}
+              tkCertificate={selectedItem.tkCertificate}
+              foto={selectedItem.foto}
               status={selectedItem.status}
             />
           </div>
