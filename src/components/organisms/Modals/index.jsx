@@ -19,11 +19,11 @@ export const Modals = ({
 }) => {
   const getStatusColor = (status) => {
     switch (status) {
-      case "Diterima":
+      case "diterima":
         return "bg-green-200 text-green-800";
-      case "Ditolak":
+      case "ditolak":
         return "bg-red-200 text-red-800";
-      case "Menunggu":
+      case "menunggu":
         return "bg-yellow-200 text-yellow-800";
       default:
         return "bg-gray-200 text-gray-800";

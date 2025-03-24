@@ -9,7 +9,7 @@ import {  getDataByIdStatus } from "../../api/api";
 export const StatusPendaftaran = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
-  const [status, setStatus] = useState("Menunggu");
+  const [status, setStatus] = useState("menunggu");
 
   useEffect(() => {
     const fetchDataById = async () => {
@@ -18,12 +18,12 @@ export const StatusPendaftaran = () => {
             console.log("DataId", result);
             setData(result);
 
-            if (result.status === "Diterima") {
-                setStatus("Diterima");
-            } else if (result.status === "Ditolak") {
-                setStatus("Ditolak");
+            if (result.status === "diterima") {
+                setStatus("diterima");
+            } else if (result.status === "ditolak") {
+                setStatus("ditolak");
             } else {
-                setStatus("Menunggu");
+                setStatus("menunggu");
             }
         } catch (err) {
             console.error("Error fetching data", err);
@@ -59,21 +59,21 @@ export const StatusPendaftaran = () => {
           </div>
         )}
 
-        {status === "Diterima" && (
+        {status === "diterima" && (
           <div className="flex flex-col items-center justify-center">
             <img src={StatusLulus} alt="Status Lulus" />
             <p className="text-center">Selamat! Anda dinyatakan Lolos dalam seleksi PPDB SD XYZ Tahun Ajaran 2024/2025</p>
           </div>
         )}
 
-        {status === "Ditolak" && (
+        {status === "ditolak" && (
           <div className="flex flex-col items-center justify-center">
             <img src={StatusGagal} alt="Status Gagal" />
             <p className="text-center">Maaf, Anda tidak lolos dalam seleksi PPDB SD XYZ Tahun Ajaran 2024/2025</p>
           </div>
         )}
 
-        {status === "Menunggu" && (
+        {status === "menunggu" && (
           <div className="flex flex-col items-center justify-center">
             <img src={StatusMenunggu} alt="Status Menunggu" />
             <p className="text-center">Pendaftaran Anda Sedang Diproses, Silakan tunggu dan pantau status Anda secara berkala.</p>

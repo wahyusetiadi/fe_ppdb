@@ -11,7 +11,7 @@ export const DataRegistrasi = () => {
   const fetchAllDataRegistrasi = async () => {
     try {
       const data = await getAllData();
-      console.log("dataGet", data);
+      // console.log("dataGet", data);
 
       setIsData(data);
     } catch (err) {
@@ -60,7 +60,7 @@ export const DataRegistrasi = () => {
             showTableFilter={true}
             onDelete={handleDelete}
             onEdit={handleEdit}
-            onUpdate={handleUpdate}
+           refreshData={fetchAllDataRegistrasi}
           />
         </div>
       </ContentLayout>

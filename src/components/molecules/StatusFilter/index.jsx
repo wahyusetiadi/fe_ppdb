@@ -4,10 +4,10 @@ export const StatusFilter = ({ onStatusChange }) => {
     const [selectedStatus, setSelectedStatus] = useState('semua')
 
     const statuses = [
-        {id: 'semua', label: 'Semua'},
-        {id: 'Menunggu', label: 'Menunggu'},
-        {id: 'Diterima', label: 'Diterima'},
-        {id: 'Ditolak', label: 'Ditolak'},
+        {id: 'semua', label: 'semua'},
+        {id: 'menunggu', label: 'menunggu'},
+        {id: 'diterima', label: 'diterima'},
+        {id: 'ditolak', label: 'ditolak'},
     ]
 
     const handleStatusChange = (statusId) => {

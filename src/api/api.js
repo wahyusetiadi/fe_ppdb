@@ -6,7 +6,7 @@ const API_URL = "http://localhost:3000";
 export const getAllData = async () => {
   try {
     const response = await axios.get("http://localhost:3000/registration");
-    console.log("getAllData", response.data);
+    // console.log("getAllData", response.data);
     return response.data;
   } catch (err) {
     console.error("error get api", err);
@@ -18,7 +18,7 @@ export const getAllData = async () => {
 export const getDataById = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/registration/edit/${id}`);
-    console.log("Get Data By ID", response.data);
+    // console.log("Get Data By ID", response.data);
     return response.data;
   } catch (error) {
     console.error("Error GET API");
@@ -30,7 +30,7 @@ export const getDataById = async (id) => {
 export const getDataByIdStatus = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/registration/${id}`);
-    console.log("Get Data By ID", response.data);
+    // console.log("Get Data By ID", response.data);
     return response.data;
   } catch (error) {
     console.error("Error GET API");
@@ -55,13 +55,18 @@ export const createDataRegistration = async (formData) => {
 };
 
 //edit
-export const editDataRegistration = async (id, data) => {
+export const editDataRegistration = async (id, formData) => {
   try {
     const response = await axios.put(
       `${API_URL}/registration/edit/${id}`,
-      data
+      formData,
+      {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      }
     );
-    console.log("Edit data", response.data);
+    // console.log("Edit data", response.data);
     return response.data;
   } catch (err) {
     console.error("error updating registration data", err);

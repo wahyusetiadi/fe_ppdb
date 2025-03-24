@@ -8,13 +8,16 @@ import {
 } from "@heroicons/react/24/outline";
 import React, { useEffect, useRef, useState } from "react";
 import { ButtonIcon } from "../../molecules/ButtonIcon";
-import { StatusFilter } from "../../molecules/StatusFilter/index,";
+
 import { TableHeader } from "../../molecules/TableHeader";
 import { TableSearch } from "../../molecules/TableSearch";
 import { Link, useNavigate } from "react-router-dom";
 import { Modals } from "../Modals";
 import { Pagination } from "../../molecules/Pagination";
 import { StatusSelector } from "../../molecules/StatusSelector";
+import { StatusFilter } from "../../molecules/StatusFilter";
+
+const BASE_URL = "http://localhost:3000/uploads/";
 
 const TableData = ({
   data,
@@ -25,7 +28,7 @@ const TableData = ({
   onDetail = () => {},
   onEdit = () => {},
   onUpdate = () => {},
-  refreshData
+  refreshData,
 }) => {
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
 
@@ -150,13 +153,12 @@ const TableData = ({
   };
 
   const handleStatusChange = (status) => {
-    if (status === 'semua') {
+    if (status === "semua") {
       setFilteredData(data);
     } else {
-      setFilteredData(data.filter(item => item.status === status));
+      setFilteredData(data.filter((item) => item.status === status));
     }
   };
-
 
   return (
     <div className="p-8 bg-white">
@@ -238,11 +240,89 @@ const TableData = ({
                       key={colIndex}
                       className="py-2 px-6 text-left w-auto text-medium"
                     >
-                      {column === "id"
-                        ? currentPage > 1
-                          ? rowIndex + 1 + (currentPage - 1) * itemsPerPage + 0
-                          : rowIndex + 1
-                        : row[column]}
+                      {column === "id" ? (
+                        currentPage > 1 ? (
+                          rowIndex + 1 + (currentPage - 1) * itemsPerPage + 0
+                        ) : (
+                          rowIndex + 1
+                        )
+                      ) : column === "akte" ? (
+                        row[column] ? (
+                          <>
+                            {console.log("Akte URL:", row.akte)}
+                            <a
+                              href={`${BASE_URL}${row.akte}`}
+                              download={row.akte}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 underline"
+                            >
+                              {row.akte}
+                            </a>
+                          </>
+                        ) : (
+                          "Tidak tersedia"
+                        )
+                      ) : column === "familyRegister" ? (
+                        row[column] ? (
+                          <>
+                            {console.log(
+                              "Family Register URL:",
+                              row.familyRegister
+                            )}
+                            <a
+                              href={`${BASE_URL}${row.familyRegister}`}
+                              download={row.familyRegister}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 underline"
+                            >
+                              {row.familyRegister}
+                            </a>
+                          </>
+                        ) : (
+                          "Tidak tersedia"
+                        )
+                      ) : column === "tkCertificate" ? (
+                        row[column] ? (
+                          <>
+                            {console.log(
+                              "TK Certificate URL:",
+                              row.tkCertificate
+                            )}
+                            <a
+                              href={`${BASE_URL}${row.tkCertificate}`}
+                              download={row.tkCertificate}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 underline"
+                            >
+                              {row.tkCertificate}
+                            </a>
+                          </>
+                        ) : (
+                          "Tidak tersedia"
+                        )
+                      ) : column === "foto" ? (
+                        row[column] ? (
+                          <>
+                            {console.log("Foto URL:", row.foto)}
+                            <a
+                              href={`${BASE_URL}${row.foto}`}
+                              download={row.foto}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 underline"
+                            >
+                              {row.foto}
+                            </a>
+                          </>
+                        ) : (
+                          "Tidak tersedia"
+                        )
+                      ) : (
+                        row[column]
+                      )}
                     </td>
                   ))}
                   <td className="py-2 px-6">

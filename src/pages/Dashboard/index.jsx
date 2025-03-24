@@ -22,10 +22,10 @@ export const Dashboard = () => {
     const fetchData = async () => {
     try {
         const data = await getAllData();
-        const menunggu = data.filter(item => item.status === "Menunggu").length;
-        const ditolak = data.filter(item => item.status === "Ditolak").length;
+        const menunggu = data.filter(item => item.status === "menunggu").length;
+        const ditolak = data.filter(item => item.status === "ditolak").length;
         const pendaftar = data.length;
-        const diterima = data.filter(item => item.status === "Diterima").length;
+        const diterima = data.filter(item => item.status === "diterima").length;
 
         setTotalMenunggu(menunggu);
         setTotalDitolak(ditolak);
@@ -43,8 +43,8 @@ fetchData();
   const fetchAllDataRegistrasi = async () => {
     try {
       const data = await getAllData();
-      const filteredData = data.filter(item => item.status === "Menunggu");
-      console.log(filteredData);
+      const filteredData = data.filter(item => item.status === "menunggu");
+      console.log("filtered", data);
 
       setIsData(filteredData);
     } catch (err) {
@@ -131,7 +131,7 @@ fetchData();
         data={isData}
         onDelete={handleDelete}
         onEdit={handleEdit}
-        refreshData={fetchAllDataRegistrasi}
+       refreshData={fetchAllDataRegistrasi}
       />
     </ContentLayout>
   );

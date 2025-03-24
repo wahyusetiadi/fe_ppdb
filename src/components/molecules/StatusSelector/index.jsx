@@ -7,24 +7,24 @@ export const StatusSelector = ({ id, onUpdate }) => {
   const [error, setError] = useState("");
 
   const statusOptions = [
-    { label: "Menunggu", value: "Menunggu", color: "bg-yellow-500" },
-    { label: "Diterima", value: "Diterima", color: "bg-green-500" },
-    { label: "Ditolak", value: "Ditolak", color: "bg-red-500" },
+    { label: "menunggu", value: "menunggu", color: "bg-yellow-500" },
+    { label: "diterima", value: "diterima", color: "bg-green-500" },
+    { label: "ditolak", value: "ditolak", color: "bg-red-500" },
   ];
 
   useEffect(() => {
     const fetchStatus = async () => {
       setLoading(true);
       try {
-        console.log(`Fetching data for ID: ${id}`); // Log ID sebelum fetch
+        // console.log(`Fetching data for ID: ${id}`); // Log ID sebelum fetch
 
         const response = await getAllData();
-        console.log("All data received:", response); // Log semua data dari backend
+        // console.log("All data received:", response); // Log semua data dari backend
 
         const data = response.find((item) => item.id === id);
-        console.log(`Found data for ID ${id}:`, data); // Log data yang ditemukan
+        // console.log(`Found data for ID ${id}:`, data); // Log data yang ditemukan
 
-        setStatus(data?.status || "Menunggu");
+        setStatus(data?.status || "menunggu");
       } catch (error) {
         console.error("Error fetching status:", error);
         setError("Gagal mengambil status.");

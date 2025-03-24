@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ContentLayout } from "../../components/organisms/ContentLayout";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { editDataRegistration, getDataById } from "../../api/api";
-import { error } from "pdf-lib";
+
 
 export const FormEdit = () => {
   const { id } = useParams();
@@ -15,11 +15,18 @@ export const FormEdit = () => {
   const [birthDate, setBirthDate] = useState("");
   const [address, setAddress] = useState("");
   const [parentPhone, setParentPhone] = useState("");
+  
+  // File objects untuk upload
   const [akte, setAkte] = useState(null);
   const [familyRegister, setFamilyRegister] = useState(null);
   const [tkCertificate, setTkCertificate] = useState(null);
   const [foto, setFoto] = useState(null);
-  const [data, setData] = useState(null);
+  
+  // Nama file yang ditampilkan di UI
+  const [akteFileName, setAkteFileName] = useState("Belum dipilih");
+  const [familyRegisterFileName, setFamilyRegisterFileName] = useState("Belum dipilih");
+  const [tkCertificateFileName, setTkCertificateFileName] = useState("Belum dipilih");
+  const [fotoFileName, setFotoFileName] = useState("Belum dipilih");
   
   const navigate = useNavigate();
 
@@ -27,7 +34,7 @@ export const FormEdit = () => {
     const fetchDataEdit = async () => {
       try {
         const response = await getDataById(id);
-        console.log("Respone", response);
+        console.log("Response", response);
         if (response) {
           setIdRegistration(response.idRegistration || "");
           setName(response.name || "");
@@ -37,10 +44,36 @@ export const FormEdit = () => {
           setBirthDate(response.birthDate || "");
           setAddress(response.address || "");
           setParentPhone(response.parentPhone || "");
-          setAkte(response.akte || null);
-          setFamilyRegister(response.familyRegister || null);
-          setTkCertificate(response.tkCertificate || null);
-          setFoto(response.foto || null);
+          
+          // Set nama file yang sudah ada
+          if (response.akte) {
+            // Ambil nama file dari path jika perlu
+            const akteName = typeof response.akte === 'string' 
+              ? response.akte.split('/').pop() 
+              : response.akte.name || response.akte;
+            setAkteFileName(akteName);
+          }
+          
+          if (response.familyRegister) {
+            const familyName = typeof response.familyRegister === 'string'
+              ? response.familyRegister.split('/').pop()
+              : response.familyRegister.name || response.familyRegister;
+            setFamilyRegisterFileName(familyName);
+          }
+          
+          if (response.tkCertificate) {
+            const tkName = typeof response.tkCertificate === 'string'
+              ? response.tkCertificate.split('/').pop()
+              : response.tkCertificate.name || response.tkCertificate;
+            setTkCertificateFileName(tkName);
+          }
+          
+          if (response.foto) {
+            const fotoName = typeof response.foto === 'string'
+              ? response.foto.split('/').pop()
+              : response.foto.name || response.foto;
+            setFotoFileName(fotoName);
+          }
         }
       } catch (error) {
         console.error("failed fetch data", error);
@@ -52,34 +85,35 @@ export const FormEdit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = {
-      idRegistration,
-      name,
-      gender,
-      religion,
-      birthPlace,
-      birthDate,
-      address,
-      parentPhone,
-      akte,
-      familyRegister,
-      tkCertificate,
-      foto,
-    };
+    const formData = new FormData();
+    formData.set("idRegistration", idRegistration);
+    formData.set("name", name);
+    formData.set("gender", gender);
+    formData.set("religion", religion);
+    formData.set("birthPlace", birthPlace);
+    formData.set("birthDate", birthDate);
+    formData.set("address", address);
+    formData.set("parentPhone", parentPhone);
+
+    if (akte) formData.set("akte", akte);
+    if (familyRegister) formData.set("familyRegister", familyRegister);
+    if (tkCertificate) formData.set("tkCertificate", tkCertificate);
+    if (foto) formData.set("foto", foto);
+
     try {
-      const result = await editDataRegistration(id, payload);
-      console.log("data berhasil dibuat", result);
+      const result = await editDataRegistration(id, formData); // pastikan API-nya menerima FormData
+      console.log("Data berhasil diupdate", result);
       navigate("/data-registrasi");
     } catch (err) {
-      console.error("error get api", err);
-      throw err;
+      console.error("Gagal update data", err);
     }
   };
 
-  const handleFileChange = (setter) => (e) => {
+  const handleFileChange = (setter, fileNameSetter) => (e) => {
     const file = e.target.files[0];
     if (file) {
-      setter(file.name);
+      setter(file);
+      fileNameSetter(file.name);
     }
   };
 
@@ -206,9 +240,7 @@ export const FormEdit = () => {
                   </label>
                   <input
                     value={parentPhone}
-                    onChange={(e) =>
-                      setParentPhone(e.target.value)
-                    }
+                    onChange={(e) => setParentPhone(e.target.value)}
                     type="text"
                     className="w-full rounded-lg p-4 border border-slate-200"
                     placeholder="Masukkan No. Telepon Orang Tua"
@@ -227,12 +259,12 @@ export const FormEdit = () => {
                       Choose file
                     </span>
                     <input
-                      onChange={handleFileChange(setAkte)}
+                      onChange={handleFileChange(setAkte, setAkteFileName)}
                       type="file"
                       className="hidden"
                     />
                     <span className="px-4 py-2 text-gray-500 flex-grow">
-                      {akte}
+                      {akteFileName}
                     </span>
                   </label>
                 </div>
@@ -249,12 +281,12 @@ export const FormEdit = () => {
                       Choose file
                     </span>
                     <input
-                      onChange={handleFileChange(setFamilyRegister)}
+                      onChange={handleFileChange(setFamilyRegister, setFamilyRegisterFileName)}
                       type="file"
                       className="hidden"
                     />
                     <span className="px-4 py-2 text-gray-500 flex-grow">
-                      {familyRegister}
+                      {familyRegisterFileName}
                     </span>
                   </label>
                 </div>
@@ -269,12 +301,12 @@ export const FormEdit = () => {
                       Choose file
                     </span>
                     <input
-                      onChange={handleFileChange(setTkCertificate)}
+                      onChange={handleFileChange(setTkCertificate, setTkCertificateFileName)}
                       type="file"
                       className="hidden"
                     />
                     <span className="px-4 py-2 text-gray-500 flex-grow">
-                      {tkCertificate}
+                      {tkCertificateFileName}
                     </span>
                   </label>
                 </div>
@@ -291,12 +323,12 @@ export const FormEdit = () => {
                       Choose file
                     </span>
                     <input
-                      onChange={handleFileChange(setFoto)}
+                      onChange={handleFileChange(setFoto, setFotoFileName)}
                       type="file"
                       className="hidden"
                     />
                     <span className="px-4 py-2 text-gray-500 flex-grow">
-                      {foto}
+                      {fotoFileName}
                     </span>
                   </label>
                 </div>

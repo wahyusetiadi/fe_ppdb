@@ -8,7 +8,7 @@ export const TableHeader = ({ tahunAjaran, title, showTotalSiswa = false, ShowBu
   const fetchAllDataRegistrasi = async () => {
       try {
         const data = await getAllData();
-        console.log("dataGet", data.length);
+        // console.log("dataGet", data.length);
   
         setCountData(data.length);
       } catch (err) {
