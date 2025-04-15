@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 const FormInput = () => {
   const [idRegistration, setIdRegistration] = useState("");
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
   const [religion, setReligion] = useState("");
   const [birthPlace, setBirthPlace] = useState("");
@@ -26,6 +27,7 @@ const FormInput = () => {
     }
   };
 
+  //generateRandomId
   const generateRegistration = () => {
     const date = new Date();
     const randomNumber = Math.floor(Math.random() * 1000000);
@@ -43,6 +45,7 @@ const FormInput = () => {
     // Validasi field yang tidak boleh kosong
     if (
       !name ||
+      !email ||
       !gender ||
       !religion ||
       !birthPlace ||
@@ -54,6 +57,13 @@ const FormInput = () => {
       return;
     }
 
+    // Validasi format email
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!emailRegex.test(email)) {
+  alert("Format email tidak valid. Harap masukkan email yang benar.");
+  return;
+}
+
       // Validasi file upload (jika harus diisi)
   if (!akte || !familyRegister || !tkCertificate || !foto) {
     alert("Harap unggah semua dokumen yang diperlukan!");
@@ -63,6 +73,7 @@ const FormInput = () => {
     const formData = new FormData();
     formData.set("idRegistration", idRegistration);
     formData.set("name", name);
+    formData.set("email", email);
     formData.set("gender", gender);
     formData.set("religion", religion);
     formData.set("birthPlace", birthPlace);
@@ -120,6 +131,18 @@ const FormInput = () => {
                   placeholder="Masukkan Nama Lengkap"
                 />
               </div>
+
+              <div className="w-full flex flex-col gap-2">
+  <label className="text-lg font-bold">Email Aktif</label>
+  <input
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    type="email"
+    className="w-full rounded-lg p-4 border border-slate-200"
+    placeholder="Masukkan Email Aktif"
+  />
+</div>
+
 
               <div className="w-full flex flex-col gap-2">
                 <label className="text-lg font-bold">Jenis Kelamin</label>

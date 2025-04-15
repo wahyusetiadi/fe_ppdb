@@ -43,6 +43,7 @@ const TableData = ({
     idRegistration: "",
     createdAt: "",
     name: "",
+    email: "",
     gender: "",
     religion: "",
     birthPlace: "",
@@ -200,6 +201,8 @@ const TableData = ({
                     ? "ID Pendaftaran"
                     : column === "name"
                     ? "Nama Lengkap"
+                    : column === "email"
+                    ? "Email Aktif"
                     : column === "gender"
                     ? "Jenis Kelamin"
                     : column === "religion"

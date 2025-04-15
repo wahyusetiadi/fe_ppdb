@@ -8,11 +8,12 @@ import RegistrasiForm from "./pages/RegistrasiForm";
 import { Pendaftaran } from "./pages/Pendaftaran";
 import { CekStatus } from "./pages/CekStatus";
 import { StatusPendaftaran } from "./pages/StatusPendaftaran";
-import { ButkiPendaftaran } from "./pages/ButkiPendaftaran";
+
 import FormInput from "./pages/FormInput";
 import { FormEdit } from "./pages/FormEdit";
 import { LoginPage } from "./pages/LoginPage";
 import PrivateRoute from "../PrivateRoute";
+import { BuktiPendaftaran } from "./pages/ButkiPendaftaran";
 
 function App() {
   return (
@@ -26,10 +27,10 @@ function App() {
           <Route path="/tambah-data" element={<FormInput />} />
           <Route path="/edit-data/:id" element={<FormEdit />} />
         </Route>
-        <Route path="/pendaftaran" element={<Pendaftaran />} />
+        <Route path="/pendaftaran/" element={<Pendaftaran />} />
         <Route path="/cek-status" element={<CekStatus />} />
         <Route path="/status-pendaftaran/:id" element={<StatusPendaftaran />} />
-        <Route path="/bukti-pendaftaran" element={<ButkiPendaftaran />} />
+        <Route path="/bukti-pendaftaran/:id" element={<BuktiPendaftaran />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>

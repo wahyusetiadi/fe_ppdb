@@ -3,7 +3,6 @@ import { ContentLayout } from "../../components/organisms/ContentLayout";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { editDataRegistration, getDataById } from "../../api/api";
 
-
 export const FormEdit = () => {
   const { id } = useParams();
 
@@ -15,19 +14,22 @@ export const FormEdit = () => {
   const [birthDate, setBirthDate] = useState("");
   const [address, setAddress] = useState("");
   const [parentPhone, setParentPhone] = useState("");
-  
+  const [email, setEmail] = useState("");
+
   // File objects untuk upload
   const [akte, setAkte] = useState(null);
   const [familyRegister, setFamilyRegister] = useState(null);
   const [tkCertificate, setTkCertificate] = useState(null);
   const [foto, setFoto] = useState(null);
-  
+
   // Nama file yang ditampilkan di UI
   const [akteFileName, setAkteFileName] = useState("Belum dipilih");
-  const [familyRegisterFileName, setFamilyRegisterFileName] = useState("Belum dipilih");
-  const [tkCertificateFileName, setTkCertificateFileName] = useState("Belum dipilih");
+  const [familyRegisterFileName, setFamilyRegisterFileName] =
+    useState("Belum dipilih");
+  const [tkCertificateFileName, setTkCertificateFileName] =
+    useState("Belum dipilih");
   const [fotoFileName, setFotoFileName] = useState("Belum dipilih");
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,34 +46,39 @@ export const FormEdit = () => {
           setBirthDate(response.birthDate || "");
           setAddress(response.address || "");
           setParentPhone(response.parentPhone || "");
-          
+          setEmail(response.email || "");
+
           // Set nama file yang sudah ada
           if (response.akte) {
             // Ambil nama file dari path jika perlu
-            const akteName = typeof response.akte === 'string' 
-              ? response.akte.split('/').pop() 
-              : response.akte.name || response.akte;
+            const akteName =
+              typeof response.akte === "string"
+                ? response.akte.split("/").pop()
+                : response.akte.name || response.akte;
             setAkteFileName(akteName);
           }
-          
+
           if (response.familyRegister) {
-            const familyName = typeof response.familyRegister === 'string'
-              ? response.familyRegister.split('/').pop()
-              : response.familyRegister.name || response.familyRegister;
+            const familyName =
+              typeof response.familyRegister === "string"
+                ? response.familyRegister.split("/").pop()
+                : response.familyRegister.name || response.familyRegister;
             setFamilyRegisterFileName(familyName);
           }
-          
+
           if (response.tkCertificate) {
-            const tkName = typeof response.tkCertificate === 'string'
-              ? response.tkCertificate.split('/').pop()
-              : response.tkCertificate.name || response.tkCertificate;
+            const tkName =
+              typeof response.tkCertificate === "string"
+                ? response.tkCertificate.split("/").pop()
+                : response.tkCertificate.name || response.tkCertificate;
             setTkCertificateFileName(tkName);
           }
-          
+
           if (response.foto) {
-            const fotoName = typeof response.foto === 'string'
-              ? response.foto.split('/').pop()
-              : response.foto.name || response.foto;
+            const fotoName =
+              typeof response.foto === "string"
+                ? response.foto.split("/").pop()
+                : response.foto.name || response.foto;
             setFotoFileName(fotoName);
           }
         }
@@ -94,6 +101,7 @@ export const FormEdit = () => {
     formData.set("birthDate", birthDate);
     formData.set("address", address);
     formData.set("parentPhone", parentPhone);
+    formData.set("email", email);
 
     if (akte) formData.set("akte", akte);
     if (familyRegister) formData.set("familyRegister", familyRegister);
@@ -123,8 +131,10 @@ export const FormEdit = () => {
         <div className="w-[1240px] rounded-xl p-10 flex flex-col gap-10 m-6 bg-white">
           <div className="flex flex-col w-full gap-4">
             <div className="flex flex-col items-start ">
-              <Link to="/data-registrasi">  
-              <button className="text-blue-600 font-bold cursor-pointer">Kembali</button>
+              <Link to="/data-registrasi">
+                <button className="text-blue-600 font-bold cursor-pointer">
+                  Kembali
+                </button>
               </Link>
             </div>
             <div className="flex items-center justify-center w-full">
@@ -147,6 +157,17 @@ export const FormEdit = () => {
                   type="text"
                   className="w-full rounded-lg p-4 border border-slate-200"
                   placeholder="Masukkan Nama Lengkap"
+                />
+              </div>
+
+              <div className="w-full flex flex-col gap-2">
+                <label className="text-lg font-bold">Email</label>
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  className="w-full rounded-lg p-4 border border-slate-200"
+                  placeholder="Masukkan Email Aktif"
                 />
               </div>
 
@@ -281,7 +302,10 @@ export const FormEdit = () => {
                       Choose file
                     </span>
                     <input
-                      onChange={handleFileChange(setFamilyRegister, setFamilyRegisterFileName)}
+                      onChange={handleFileChange(
+                        setFamilyRegister,
+                        setFamilyRegisterFileName
+                      )}
                       type="file"
                       className="hidden"
                     />
@@ -301,7 +325,10 @@ export const FormEdit = () => {
                       Choose file
                     </span>
                     <input
-                      onChange={handleFileChange(setTkCertificate, setTkCertificateFileName)}
+                      onChange={handleFileChange(
+                        setTkCertificate,
+                        setTkCertificateFileName
+                      )}
                       type="file"
                       className="hidden"
                     />
