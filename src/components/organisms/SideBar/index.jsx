@@ -12,7 +12,7 @@ export const SideBar = () => {
     };
 
     return (
-        <div className='flex flex-col w-1/6 h-dvh bg-white text-slate-500 px-6 pt-10 text-base overflow-y-auto gap-10'>
+        <div className='flex flex-col w-1/6 h-dvh bg-white text-slate-500 px-6 pt-10 text-base  gap-10'>
 
             <div className="w-full text-nowrap">
                 <ul className='w-fit flex flex-col gap-4'>

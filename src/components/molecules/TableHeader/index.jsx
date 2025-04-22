@@ -3,7 +3,7 @@ import { ButtonIcon } from '../ButtonIcon'
 import { ArrowDownTrayIcon, CalendarDateRangeIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import { getAllData } from '../../../api/api'
 
-export const TableHeader = ({ tahunAjaran, title, showTotalSiswa = false, ShowButtonAttribute = false }) => {
+export const TableHeader = ({ tahunAjaran, title, showTotalSiswa = false, ShowButtonAttribute = false, onDownloadExcel }) => {
   const [countData, setCountData] = useState(0)
   const fetchAllDataRegistrasi = async () => {
       try {
@@ -20,6 +20,9 @@ export const TableHeader = ({ tahunAjaran, title, showTotalSiswa = false, ShowBu
     useEffect(() => {
         fetchAllDataRegistrasi();
       }, []);
+
+      
+
   return (
     <div className="flex flex-col gap-2 bg-white">
       <div className="w-full flex items-center space-x-2 gap-4 justify-between">
@@ -45,7 +48,8 @@ export const TableHeader = ({ tahunAjaran, title, showTotalSiswa = false, ShowBu
             textColor="black"
             Icon={ArrowDownTrayIcon}
             iconPosition="left"
-            className="border border-gray-300 px-4 py-2 rounded-md">
+            className="border border-gray-300 px-4 py-2 rounded-md"
+            onClick={onDownloadExcel}>
             Download Data
           </ButtonIcon>
 

@@ -91,7 +91,7 @@ const RegistrasiForm = () => {
       const result = await createDataRegistration(formData);
       console.log("data berhasil dibuat", result);
       setTimeout(() => {
-        navigate(`/pendaftaran/${id}`);
+        navigate('/pendaftaran');
       }, 1000);
     } catch (err) {
       console.error("error get api", err);

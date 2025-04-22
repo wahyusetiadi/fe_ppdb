@@ -21,15 +21,15 @@ export const Pendaftaran = () => {
                     <div className="text-center w-full ">
                         <h1 className='font-bold text-2xl'>Pendaftaran Berhasil</h1>
 
-                        <p className=''>Silahkan simpan dan download bukti pendaftaran dibawah ini.  Jangan lupa untuk cek status pendaftaran kamu secara berkala dengan memasukkan ID Pendaftaran.</p>
+                        <p className=''>Silahkan cek email yang didaftarkan dan download bukti pendaftaran.  Jangan lupa untuk cek status pendaftaran kamu secara berkala dengan memasukkan ID Pendaftaran.</p>
                     </div>
 
-                    <div className="">
+                    {/* <div className="">
                       <button className='flex items-center justify-center gap-2 px-20 py-4 bg-blue-500 rounded-full text-white font-semibold cursor-pointer'>
                         <ArrowDownOnSquareIcon className='size-6' />
                         <p>Download Bukti Pendaftaran</p>
                       </button>
-                    </div>
+                    </div> */}
 
                 </div>
             </div>

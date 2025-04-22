@@ -1,0 +1,15 @@
+@media print {
+  button {
+    display: none !important; /* Hilangkan tombol download */
+  }
+
+  body {
+    -webkit-print-color-adjust: exact !important; /* Biar warna sesuai */
+    print-color-adjust: exact !important;
+    zoom: 90%;
+  }
+
+  .shadow, .drop-shadow {
+    box-shadow: none !important;
+  }
+}

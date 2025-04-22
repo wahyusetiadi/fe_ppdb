@@ -3,6 +3,7 @@ import LogoSekolah from '../../assets/LogoSekolah.svg';
 import LogoEduNEX from '../../assets/Logo.svg';
 import { useParams } from 'react-router-dom';
 import { getDataByIdStatus } from '../../api/api';
+import './style.css';
 
 export const BuktiPendaftaran = () => {
     const { id } = useParams(); // Ambil ID dari URL
@@ -28,7 +29,7 @@ export const BuktiPendaftaran = () => {
     if (!data) return <div className="text-center mt-10">Memuat data pendaftaran...</div>;
 
     return (
-        <div className="w-full flex justify-center relative">
+        <div id="bukti-pendaftaran" className="w-full flex justify-center relative">
             {/* Tombol Download */}
             <button
                 onClick={handleDownloadPDF}

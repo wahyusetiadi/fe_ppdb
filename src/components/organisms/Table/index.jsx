@@ -32,6 +32,21 @@ const TableData = ({
 }) => {
   const columns = data.length > 0 ? Object.keys(data[0]) : [];
 
+  const formatDateIndonesia = (dateString) => {
+    if (!dateString) return "";
+    
+    const date = new Date(dateString);
+
+    if(isNaN(date.getTime())) return dateSting;
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  }
+
+
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState(
     Array.isArray(data) ? data : []
@@ -161,6 +176,26 @@ const TableData = ({
     }
   };
 
+  const handleDownloadExcel = () => {
+    console.log('Tombol diklik!');
+    fetch('http://localhost:3000/export/excel', {
+      method: 'GET',
+    })
+      .then(response => response.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'data-registrasi.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      })
+      .catch(error => {
+        console.error('Gagal download:', error);
+      });
+  };
+
   return (
     <div className="p-8 bg-white">
       <div className="p-"></div>
@@ -170,6 +205,7 @@ const TableData = ({
             title="Jumlah Pendaftar"
             showTotalSiswa={true}
             ShowButtonAttribute={true}
+            onDownloadExcel={handleDownloadExcel}
           />
         </div>
       )}
@@ -249,6 +285,8 @@ const TableData = ({
                         ) : (
                           rowIndex + 1
                         )
+                      ) : column === "birthDate" ? (
+                        formatDateIndonesia(row[column])
                       ) : column === "akte" ? (
                         row[column] ? (
                           <>

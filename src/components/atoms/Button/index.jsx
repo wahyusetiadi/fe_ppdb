@@ -15,9 +15,9 @@ const getColor = (color) => {
     }
 }
 
-export default function Button({ id, color, textColor, children, className }) {
+export default function Button({ id, color, textColor, children, className, onClick }) {
     return (
-        <button id={id} className={`w-auto h-auto py-3 rounded-lg cursor-pointer ${textColor} ${getColor(color)} ${className}`}>
+        <button id={id} onClick={onClick} className={`w-auto h-auto py-3 rounded-lg cursor-pointer ${textColor} ${getColor(color)} ${className}`}>
             {children}
         </button>
     )
