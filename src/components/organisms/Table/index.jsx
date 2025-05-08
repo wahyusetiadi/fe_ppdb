@@ -17,7 +17,7 @@ import { Pagination } from "../../molecules/Pagination";
 import { StatusSelector } from "../../molecules/StatusSelector";
 import { StatusFilter } from "../../molecules/StatusFilter";
 
-const BASE_URL = "http://localhost:3000/uploads/";
+const BASE_URL = "https://ppdb.edunex.id/api/uploads/";
 
 const TableData = ({
   data,
@@ -30,22 +30,27 @@ const TableData = ({
   onUpdate = () => {},
   refreshData,
 }) => {
-  const columns = data.length > 0 ? Object.keys(data[0]) : [];
+  // Filter kolom yang tidak ingin ditampilkan (isDeleted dan status dari backend)
+  const columns =
+    data.length > 0
+      ? Object.keys(data[0]).filter(
+          (column) => column !== "isDeleted" && column !== "status"
+        )
+      : [];
 
   const formatDateIndonesia = (dateString) => {
     if (!dateString) return "";
-    
+
     const date = new Date(dateString);
 
-    if(isNaN(date.getTime())) return dateSting;
+    if (isNaN(date.getTime())) return dateString;
 
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
 
     return `${day}/${month}/${year}`;
-  }
-
+  };
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState(
@@ -88,7 +93,6 @@ const TableData = ({
     if (searchQuery) {
       filtered = filtered.filter((item) => {
         const name = item.name ? item.name.toLowerCase() : "";
-        console.log("name", name);
         return name.includes(searchQuery.toLowerCase());
       });
     }
@@ -103,7 +107,6 @@ const TableData = ({
       const name = item.name ? item.name.toLowerCase() : "";
       return name.includes(lowercasedQuery);
     });
-    console.log("filtered", filtered);
 
     setFilteredData(filtered);
   };
@@ -124,26 +127,25 @@ const TableData = ({
 
   const deleteItem = () => {
     if (!selectedItem) return;
-    onDelete(selectedItem.id);
-    toggleDeleteModal();
+    
+  // Call the onDelete function from props
+  onDelete(selectedItem.id);
+  
+  // Show success message
+  setSuccessMessage(`Data "${selectedItem.name}" berhasil dihapus!`);
+  setShowSuccessAlert(true);
+  
+  // Close delete modal
+  toggleDeleteModal();
+  
+  // Auto hide the success alert after 3 seconds
+  setTimeout(() => {
+    setShowSuccessAlert(false);
+  }, 3000);
   };
 
-  // const deleteItem = () => {
-  //   if (selectedItem) {
-  //     onDelete(selectedItem.id);
-  //     closeDeleteModal();
-  //   }
-  // };
-
-  // const openDeleteModal = (row) => {
-  //   setSelectedItem(row);
-  //   setIsDeleteOpen(true);
-  // };
-
-  // const closeDeleteModal = (row) => {
-  //   setSelectedItem(null);
-  //   setIsDeleteOpen(false);
-  // };
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -177,22 +179,22 @@ const TableData = ({
   };
 
   const handleDownloadExcel = () => {
-    console.log('Tombol diklik!');
-    fetch('http://localhost:3000/export/excel', {
-      method: 'GET',
+    console.log("Tombol diklik!");
+    fetch("https://ppdb.edunex.id/api/export/excel", {
+      method: "GET",
     })
-      .then(response => response.blob())
-      .then(blob => {
+      .then((response) => response.blob())
+      .then((blob) => {
         const url = window.URL.createObjectURL(new Blob([blob]));
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
-        a.download = 'data-registrasi.xlsx';
+        a.download = "data-registrasi.xlsx";
         document.body.appendChild(a);
         a.click();
         a.remove();
       })
-      .catch(error => {
-        console.error('Gagal download:', error);
+      .catch((error) => {
+        console.error("Gagal download:", error);
       });
   };
 
@@ -209,6 +211,24 @@ const TableData = ({
           />
         </div>
       )}
+
+        {/* Place the success alert here */}
+    {showSuccessAlert && (
+      <div className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative flex items-center">
+        <div className="mr-2">
+          <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <span className="block sm:inline">{successMessage}</span>
+        <button 
+          onClick={() => setShowSuccessAlert(false)} 
+          className="absolute top-0 bottom-0 right-0 px-4 py-3"
+        >
+          <span className="text-xl font-bold">&times;</span>
+        </button>
+      </div>
+    )}
 
       {showTableSearch && (
         <div className=" pt-10">
@@ -259,12 +279,19 @@ const TableData = ({
                     ? "Scan Ijazah TK"
                     : column === "photo"
                     ? "Pas Foto 3x4"
+                    : column === "dibuat_tanggal"
+                    ? "Dibuat Tanggal"
+                    : column === "dibuat_jam"
+                    ? "Dibuat Jam"
+                    : column === "dibuat tanggal"
+                    ? "Dibuat Tanggal"
+                    : column === "dibuat jam"
+                    ? "Dibuat Jam"
                     : column}
                 </th>
               ))}
-              <th className="px-6 py-4 text-left font-semibold"> Status</th>{" "}
-              {/* KODE BARU */}
-              <th className="px-6 py-4 text-left font-semibold"> Aksi</th>
+              <th className="px-6 py-4 text-left font-semibold">Status</th>
+              <th className="px-6 py-4 text-left font-semibold">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -287,77 +314,64 @@ const TableData = ({
                         )
                       ) : column === "birthDate" ? (
                         formatDateIndonesia(row[column])
+                      ) : column === "dibuat_tanggal" ||
+                        column === "dibuat tanggal" ? (
+                        row["dibuat tanggal"] || row.dibuat_tanggal
+                      ) : column === "dibuat_jam" || column === "dibuat jam" ? (
+                        row["dibuat jam"] || row.dibuat_jam
                       ) : column === "akte" ? (
                         row[column] ? (
-                          <>
-                            {console.log("Akte URL:", row.akte)}
-                            <a
-                              href={`${BASE_URL}${row.akte}`}
-                              download={row.akte}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 underline"
-                            >
-                              {row.akte}
-                            </a>
-                          </>
+                          <a
+                            href={`${BASE_URL}${row.akte}`}
+                            download={row.akte}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline"
+                          >
+                            {row.akte}
+                          </a>
                         ) : (
                           "Tidak tersedia"
                         )
                       ) : column === "familyRegister" ? (
                         row[column] ? (
-                          <>
-                            {console.log(
-                              "Family Register URL:",
-                              row.familyRegister
-                            )}
-                            <a
-                              href={`${BASE_URL}${row.familyRegister}`}
-                              download={row.familyRegister}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 underline"
-                            >
-                              {row.familyRegister}
-                            </a>
-                          </>
+                          <a
+                            href={`${BASE_URL}${row.familyRegister}`}
+                            download={row.familyRegister}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline"
+                          >
+                            {row.familyRegister}
+                          </a>
                         ) : (
                           "Tidak tersedia"
                         )
                       ) : column === "tkCertificate" ? (
                         row[column] ? (
-                          <>
-                            {console.log(
-                              "TK Certificate URL:",
-                              row.tkCertificate
-                            )}
-                            <a
-                              href={`${BASE_URL}${row.tkCertificate}`}
-                              download={row.tkCertificate}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 underline"
-                            >
-                              {row.tkCertificate}
-                            </a>
-                          </>
+                          <a
+                            href={`${BASE_URL}${row.tkCertificate}`}
+                            download={row.tkCertificate}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline"
+                          >
+                            {row.tkCertificate}
+                          </a>
                         ) : (
                           "Tidak tersedia"
                         )
                       ) : column === "foto" ? (
                         row[column] ? (
-                          <>
-                            {console.log("Foto URL:", row.foto)}
-                            <a
-                              href={`${BASE_URL}${row.foto}`}
-                              download={row.foto}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 underline"
-                            >
-                              {row.foto}
-                            </a>
-                          </>
+                          <a
+                            href={`${BASE_URL}${row.foto}`}
+                            download={row.foto}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline"
+                          >
+                            {row.foto}
+                          </a>
                         ) : (
                           "Tidak tersedia"
                         )
@@ -370,7 +384,6 @@ const TableData = ({
                     <StatusSelector id={row.id} onUpdate={refreshData} />
                   </td>
                   <td className="py-2 px-6">
-                    {/* KODE BARU */}
                     <div className="flex space-x-2">
                       <button
                         onClick={() => {
@@ -424,21 +437,18 @@ const TableData = ({
             <div className="w-full h-screen bg-black absolute opacity-50"></div>
             <div className="bg-white p-6 rounded-lg shadow-lg z-10 w-[480px] max-md:w-[300px] flex items-center justify-center flex-col gap-8">
               <div className="w-full flex flex-col items-center justify-center gap-5">
-                <div
-                  className={`w-20 h-20 max-md:w-14 max-md:h-14 rounded-full flex items-center justify-center`}
-                >
-                  <div
-                    className={`w-16 h-16 max-md:w-11 max-md:h-11  rounded-full flex items-center justify-center`}
-                  >
-                    A
-                  </div>
+                <div className="text-center">
+                  <p className="font-medium text-lg">
+                    ID Pendaftaran: {selectedItem?.idRegistration}
+                  </p>
+                  <p className="font-bold text-xl mt-2">{selectedItem?.name}</p>
                 </div>
                 <div className="w-full flex flex-col text-center items-center justify-center">
                   <h3 className="text-xl max-md:text-base font-semibold">
                     HAPUS
                   </h3>
                   <p className="text-base max-md:text-xs text-[#64748B]">
-                    Ingin menghapus?
+                    Ingin menghapus data pendaftaran ini?
                   </p>
                 </div>
               </div>
@@ -466,8 +476,12 @@ const TableData = ({
               onCloseModal={closeModals}
               id={selectedItem.id}
               idRegistration={selectedItem.idRegistration}
-              createdAt={selectedItem.createdAt}
+              dibuat_tanggal={
+                selectedItem["dibuat tanggal"] || selectedItem.dibuat_tanggal
+              }
+              dibuat_jam={selectedItem["dibuat jam"] || selectedItem.dibuat_jam}
               name={selectedItem.name}
+              email={selectedItem.email}
               gender={selectedItem.gender}
               religion={selectedItem.religion}
               birthPlace={selectedItem.birthPlace}

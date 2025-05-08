@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../../components/organisms/NavigasiBar'
-import ImagePendaftaran from '../../assets/imagePendaftaran.png'
+import ImagePendaftaran from '../../assets/ImagePendaftaran.png'
 import { ButtonIcon } from '../../components/molecules/ButtonIcon'
 import { ArrowDownOnSquareIcon } from '@heroicons/react/24/outline'
 

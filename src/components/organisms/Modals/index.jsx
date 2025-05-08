@@ -4,7 +4,8 @@ import React from "react";
 export const Modals = ({
   idRegistration,
   name,
-  createdAt,
+  dibuat_tanggal,
+  email,
   gender,
   religion,
   birthPlace,
@@ -49,8 +50,9 @@ export const Modals = ({
         <form className="flex flex-col gap-4">
           {[
             ["ID Pendaftaran", idRegistration],
-            ["Tanggal Registrasi", createdAt],
+            ["Tanggal Registrasi", dibuat_tanggal],
             ["Nama Lengkap", name],
+            ["Email aktif", email],
             ["Jenis Kelamin", gender],
             ["Agama", religion],
             ["Tempat, Tanggal Lahir", birthPlace],
@@ -88,14 +90,14 @@ export const Modals = ({
       </div>
 
       <div className="flex justify-between">
-        <button className="bg-red-100 cursor-pointer rounded-lg py-2 px-6">Hapus</button>
+        {/* <button className="bg-red-100 cursor-pointer rounded-lg py-2 px-6">Hapus</button> */}
 
         <div className="flex gap-2 items-center w-fit">
           <p className="font-bold">Status :</p>
           <input type="text" disabled value={status} className={`rounded-lg px-2 py-1 ${statusColorClass}`} />
         </div>
 
-        <button className="bg-blue-100 cursor-pointer rounded-lg py-2 px-3">Edit</button>
+        {/* <button className="bg-blue-100 cursor-pointer rounded-lg py-2 px-3">Edit</button> */}
       </div>
     </div>
   );

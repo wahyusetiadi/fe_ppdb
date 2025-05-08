@@ -90,7 +90,7 @@ if (!emailRegex.test(email)) {
       console.log("data berhasil dibuat", result);
       setTimeout(() => {
         navigate("/data-registrasi");
-      }, 1000);
+      }, 500);
     } catch (err) {
       console.error("error get api", err);
       throw err;

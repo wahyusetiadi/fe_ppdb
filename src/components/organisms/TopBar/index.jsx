@@ -22,7 +22,7 @@ export const TopBar = () => {
             <div className="w-10 h-10 rounded-full bg-slate-900"></div>
             <div className="">
                 <p>{username}</p>
-                <p>maulana@gmail.com</p>
+                <p>kevin@gmail.com</p>
             </div>
         </div>
     </div>

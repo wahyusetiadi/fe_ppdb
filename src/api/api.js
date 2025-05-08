@@ -1,11 +1,11 @@
 import axios from "axios";
-const API_URL = "http://localhost:3000";
+const API_URL = "https://ppdb.edunex.id/api"
 
 
 //read
 export const getAllData = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/registration");
+    const response = await axios.get(`${API_URL}/registration`);
     // console.log("getAllData", response.data);
     return response.data;
   } catch (err) {

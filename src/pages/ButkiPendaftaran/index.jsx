@@ -23,7 +23,7 @@ export const BuktiPendaftaran = () => {
     }, [id]);
 
     const handleDownloadPDF = () => {
-        window.open(`http://localhost:3000/registration/${id}/print`, '_blank');
+        window.open(`https://ppdb.edunex.id/api/registration/${id}/print`, '_blank');
     };
 
     if (!data) return <div className="text-center mt-10">Memuat data pendaftaran...</div>;
@@ -54,16 +54,16 @@ export const BuktiPendaftaran = () => {
                     <h1 className='text-xl font-bold p-8'>Bukti Pendaftaran</h1>
                     <div className="text-start flex gap-6">
                         <div className="w-[120px] h-[160px] bg-slate-900">
-                            <img src={`http://localhost:3000/${data.foto}`} alt="Foto Pendaftar" className="w-full h-full object-cover" />
+                            <img src={`https://ppdb.edunex.id/api/${data.foto}`} alt="Foto Pendaftar" className="w-full h-full object-cover" />
                         </div>
                         <div className="flex flex-col gap-3.5">
                             <div className="flex gap-2">
-                                <p className='w-[160px] font-bold'>ID Pendaftaran</p>
+                                <p className='w-[160px] font-bold'>ID Pendaftaran:</p>
                                 <p>{data.idRegistration}</p>
                             </div>
                             <hr className='text-slate-300' />
                             <div className="flex gap-2">
-                                <p className='w-[160px] font-bold'>Tanggal Registrasi</p>
+                                <p className='w-[160px] font-bold'>Tanggal Registrasi:</p>
                                 <p>{data.dibuat_tanggal} | {data.dibuat_jam}</p>
                             </div>
                             <hr className='text-slate-300' />
@@ -73,32 +73,32 @@ export const BuktiPendaftaran = () => {
 
                 <div className="flex flex-col gap-3.5 mt-12 px-10">
                     <div className="flex gap-2">
-                        <p className='w-[224px] font-bold'>Nama Lengkap</p>
+                        <p className='w-[224px] font-bold'>Nama Lengkap:</p>
                         <p>{data.name}</p>
                     </div>
                     <hr className='text-slate-300' />
                     <div className="flex gap-2">
-                        <p className='w-[224px] font-bold'>Jenis Kelamin</p>
+                        <p className='w-[224px] font-bold'>Jenis Kelamin:</p>
                         <p>{data.gender}</p>
                     </div>
                     <hr className='text-slate-300' />
                     <div className="flex gap-2">
-                        <p className='w-[224px] font-bold'>Agama</p>
+                        <p className='w-[224px] font-bold'>Agama:</p>
                         <p>{data.religion}</p>
                     </div>
                     <hr className='text-slate-300' />
                     <div className="flex gap-2">
-                        <p className='w-[224px] font-bold'>Tempat, Tanggal Lahir</p>
+                        <p className='w-[224px] font-bold'>Tempat, Tanggal Lahir:</p>
                         <p>{data.birthPlace}, {data.birthDate}</p>
                     </div>
                     <hr className='text-slate-300' />
                     <div className="flex gap-2">
-                        <p className='min-w-[224px] font-bold'>Alamat</p>
+                        <p className='min-w-[224px] font-bold'>Alamat:</p>
                         <p>{data.address}</p>
                     </div>
                     <hr className='text-slate-300' />
                     <div className="flex gap-2">
-                        <p className='w-[224px] font-bold'>No. Telp Orang Tua</p>
+                        <p className='w-[224px] font-bold'>No. Telp Orang Tua:</p>
                         <p>{data.parentPhone}</p>
                     </div>
                     <hr className='text-slate-300' />

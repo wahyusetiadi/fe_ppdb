@@ -44,7 +44,7 @@ fetchData();
     try {
       const data = await getAllData();
       const filteredData = data.filter(item => item.status === "menunggu");
-      console.log("filtered", data);
+      
 
       setIsData(filteredData);
     } catch (err) {
