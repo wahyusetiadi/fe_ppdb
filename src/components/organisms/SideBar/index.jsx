@@ -5,11 +5,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 export const SideBar = () => {
     const location = useLocation();
     const navigate = useNavigate();
-
+    
     const handleLogout = () => {
         localStorage.removeItem("token");
-        navigate("/login")
-    };
+        sessionStorage.removeItem("token"); // ini tambahan penting!
+        navigate("/login");
+      };
 
     return (
         <div className='flex flex-col w-1/6 h-dvh bg-white text-slate-500 px-6 pt-10 text-base  gap-10'>

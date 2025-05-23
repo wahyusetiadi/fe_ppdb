@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ImageLogin from "../../assets/ImageLogin.png";
 import Logo from "../../assets/Logo.svg";
 import "./style.css";
@@ -10,9 +10,11 @@ export const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,8 +24,11 @@ export const LoginPage = () => {
         password,
       });
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("username", res.data.user.username)
+      // Simpan token ke localStorage atau sessionStorage
+      const storage = rememberMe ? localStorage : sessionStorage;
+      storage.setItem("token", res.data.token);
+      storage.setItem("username", res.data.user.username);
+
       navigate("/dashboard");
     } catch (err) {
       setError("Username atau Password salah!");
@@ -32,9 +37,8 @@ export const LoginPage = () => {
 
   return (
     <div className="flex h-screen">
-      {/* Bagian Kiri - Gambar */}
+      {/* Gambar kiri */}
       <div className="relative w-[616px] h-full bg-login bg-blue-100">
-        {/* Gambar di atas Background */}
         <div className="absolute inset-0 flex items-end justify-center">
           <img
             src={ImageLogin}
@@ -44,15 +48,12 @@ export const LoginPage = () => {
         </div>
       </div>
 
-      {/* Bagian Kanan - Form Login */}
+      {/* Form login */}
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-full max-w-[480px] space-y-8 ">
-          {/* ⬅️ Perbesar form */}
-          {/* Logo */}
+        <div className="w-full max-w-[480px] space-y-8">
           <div className="flex justify-center">
             <img src={Logo} alt="EduNex" className="h-12" />
           </div>
-          {/* Judul */}
           <div className="text-center">
             <h1 className="text-2xl font-bold">Masuk ke Akun Anda</h1>
             <p className="text-gray-500">
@@ -62,9 +63,7 @@ export const LoginPage = () => {
 
           {error && <p className="text-red-500 text-center">{error}</p>}
 
-          {/* Form */}
           <form onSubmit={handleLogin} className="space-y-4">
-            {/* Username */}
             <div>
               <label className="block font-bold mb-1">Username</label>
               <input
@@ -76,7 +75,6 @@ export const LoginPage = () => {
               />
             </div>
 
-            {/* Password */}
             <div>
               <label className="block font-bold mb-1">Password</label>
               <div className="relative">
@@ -99,6 +97,19 @@ export const LoginPage = () => {
                   )}
                 </button>
               </div>
+            </div>
+
+            {/* Remember Me */}
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              <label htmlFor="rememberMe" className="text-sm text-gray-600">
+                Ingat Saya
+              </label>
             </div>
 
             <button className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">

@@ -18,6 +18,8 @@ const RegistrasiForm = () => {
   const [tkCertificate, setTkCertificate] = useState(null);
   const [foto, setFoto] = useState(null);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -88,6 +90,7 @@ const RegistrasiForm = () => {
     formData.set("foto", foto);
 
     try {
+      setIsSubmitting(true);
       const result = await createDataRegistration(formData);
       console.log("data berhasil dibuat", result);
       setTimeout(() => {
@@ -95,7 +98,9 @@ const RegistrasiForm = () => {
       }, 1000);
     } catch (err) {
       console.error("error get api", err);
-      throw err;
+      alert("Terjadi kesalahan saat mengirim data");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -321,9 +326,17 @@ const RegistrasiForm = () => {
             {/* Button Kirim */}
             <div className=" text-white font-bold">
               {/* <Link to="/pendaftaran"> */}
-              <button className="px-20 py-4 bg-blue-500 rounded-lg cursor-pointer">
-                Kirim Formulir
-              </button>
+              <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`px-20 py-4 rounded-lg font-bold text-white ${
+                    isSubmitting
+                      ? "bg-blue-300 cursor-not-allowed"
+                      : "bg-blue-400 hover:bg-blue-800"
+                  }`}
+                >
+                  {isSubmitting ?  "Mengirim..." : "Kirim Formulir"}
+                </button>
               {/* </Link> */}
             </div>
           </div>

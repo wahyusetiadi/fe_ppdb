@@ -16,6 +16,7 @@ import { Modals } from "../Modals";
 import { Pagination } from "../../molecules/Pagination";
 import { StatusSelector } from "../../molecules/StatusSelector";
 import { StatusFilter } from "../../molecules/StatusFilter";
+import { formatDateIndonesia } from "../../../utils/dateUtils";
 
 const BASE_URL = "https://ppdb.edunex.id/api/uploads/";
 
@@ -38,19 +39,20 @@ const TableData = ({
         )
       : [];
 
-  const formatDateIndonesia = (dateString) => {
-    if (!dateString) return "";
-
-    const date = new Date(dateString);
-
-    if (isNaN(date.getTime())) return dateString;
-
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-  };
+      // const formatDateIndonesia = (dateString) => {
+      //   if (!dateString) return "";
+      
+      //   const parsedDate = new Date(dateString);
+      
+      //   if (isNaN(parsedDate.getTime())) return dateString;
+      
+      //   const day = String(parsedDate.getDate()).padStart(2, "0");
+      //   const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+      //   const year = parsedDate.getFullYear();
+      
+       
+      //   return `${day}/${month}/${year}`;
+      // };
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState(
@@ -316,7 +318,7 @@ const TableData = ({
                         formatDateIndonesia(row[column])
                       ) : column === "dibuat_tanggal" ||
                         column === "dibuat tanggal" ? (
-                        row["dibuat tanggal"] || row.dibuat_tanggal
+                       formatDateIndonesia (row["dibuat tanggal"] || row.dibuat_tanggal)
                       ) : column === "dibuat_jam" || column === "dibuat jam" ? (
                         row["dibuat jam"] || row.dibuat_jam
                       ) : column === "akte" ? (
@@ -328,7 +330,7 @@ const TableData = ({
                             rel="noopener noreferrer"
                             className="text-blue-600 underline"
                           >
-                            {row.akte}
+                           unduh Akta
                           </a>
                         ) : (
                           "Tidak tersedia"
@@ -342,7 +344,7 @@ const TableData = ({
                             rel="noopener noreferrer"
                             className="text-blue-600 underline"
                           >
-                            {row.familyRegister}
+                            unduh Kartu keluarga
                           </a>
                         ) : (
                           "Tidak tersedia"
@@ -356,7 +358,7 @@ const TableData = ({
                             rel="noopener noreferrer"
                             className="text-blue-600 underline"
                           >
-                            {row.tkCertificate}
+                            unduh Ijazah
                           </a>
                         ) : (
                           "Tidak tersedia"
@@ -370,7 +372,7 @@ const TableData = ({
                             rel="noopener noreferrer"
                             className="text-blue-600 underline"
                           >
-                            {row.foto}
+                            unduh Gambar
                           </a>
                         ) : (
                           "Tidak tersedia"

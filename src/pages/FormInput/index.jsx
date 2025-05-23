@@ -18,6 +18,8 @@ const FormInput = () => {
   const [tkCertificate, setTkCertificate] = useState(null);
   const [foto, setFoto] = useState(null);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const navigate = useNavigate();
 
   const handleFileChange = (setter) => (e) => {
@@ -58,17 +60,17 @@ const FormInput = () => {
     }
 
     // Validasi format email
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-if (!emailRegex.test(email)) {
-  alert("Format email tidak valid. Harap masukkan email yang benar.");
-  return;
-}
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Format email tidak valid. Harap masukkan email yang benar.");
+      return;
+    }
 
-      // Validasi file upload (jika harus diisi)
-  if (!akte || !familyRegister || !tkCertificate || !foto) {
-    alert("Harap unggah semua dokumen yang diperlukan!");
-    return;
-  }
+    // Validasi file upload (jika harus diisi)
+    if (!akte || !familyRegister || !tkCertificate || !foto) {
+      alert("Harap unggah semua dokumen yang diperlukan!");
+      return;
+    }
 
     const formData = new FormData();
     formData.set("idRegistration", idRegistration);
@@ -86,6 +88,7 @@ if (!emailRegex.test(email)) {
     formData.set("foto", foto);
 
     try {
+      setIsSubmitting(true);
       const result = await createDataRegistration(formData);
       console.log("data berhasil dibuat", result);
       setTimeout(() => {
@@ -93,7 +96,9 @@ if (!emailRegex.test(email)) {
       }, 500);
     } catch (err) {
       console.error("error get api", err);
-      throw err;
+      alert("Terjadi kesalahan saat mengirim data");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -133,16 +138,15 @@ if (!emailRegex.test(email)) {
               </div>
 
               <div className="w-full flex flex-col gap-2">
-  <label className="text-lg font-bold">Email Aktif</label>
-  <input
-    value={email}
-    onChange={(e) => setEmail(e.target.value)}
-    type="email"
-    className="w-full rounded-lg p-4 border border-slate-200"
-    placeholder="Masukkan Email Aktif"
-  />
-</div>
-
+                <label className="text-lg font-bold">Email Aktif</label>
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  className="w-full rounded-lg p-4 border border-slate-200"
+                  placeholder="Masukkan Email Aktif"
+                />
+              </div>
 
               <div className="w-full flex flex-col gap-2">
                 <label className="text-lg font-bold">Jenis Kelamin</label>
@@ -330,8 +334,16 @@ if (!emailRegex.test(email)) {
               {/* Button Kirim */}
               <div className=" text-white font-bold">
                 {/* <Link to="/pendaftaran"> */}
-                <button className="px-20 py-4 bg-blue-500 rounded-lg cursor-pointer">
-                  Kirim Formulir
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`px-20 py-4 rounded-lg font-bold text-white ${
+                    isSubmitting
+                      ? "bg-blue-300 cursor-not-allowed"
+                      : "bg-blue-400 hover:bg-blue-800"
+                  }`}
+                >
+                  {isSubmitting ?  "Mengirim..." : "Kirim Formulir"}
                 </button>
                 {/* </Link> */}
               </div>

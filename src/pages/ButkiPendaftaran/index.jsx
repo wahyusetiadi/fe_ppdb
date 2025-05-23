@@ -4,6 +4,7 @@ import LogoEduNEX from '../../assets/Logo.svg';
 import { useParams } from 'react-router-dom';
 import { getDataByIdStatus } from '../../api/api';
 import './style.css';
+import { formatDateIndonesia } from '../../utils/dateUtils';
 
 export const BuktiPendaftaran = () => {
     const { id } = useParams(); // Ambil ID dari URL
@@ -64,7 +65,7 @@ export const BuktiPendaftaran = () => {
                             <hr className='text-slate-300' />
                             <div className="flex gap-2">
                                 <p className='w-[160px] font-bold'>Tanggal Registrasi:</p>
-                                <p>{data.dibuat_tanggal} | {data.dibuat_jam}</p>
+                                <p>{formatDateIndonesia(data.dibuat_tanggal)} | {data.dibuat_jam}</p>
                             </div>
                             <hr className='text-slate-300' />
                         </div>
@@ -89,7 +90,7 @@ export const BuktiPendaftaran = () => {
                     <hr className='text-slate-300' />
                     <div className="flex gap-2">
                         <p className='w-[224px] font-bold'>Tempat, Tanggal Lahir:</p>
-                        <p>{data.birthPlace}, {data.birthDate}</p>
+                        <p>{data.birthPlace}, {formatDateIndonesia(data.birthDate)}</p>
                     </div>
                     <hr className='text-slate-300' />
                     <div className="flex gap-2">
