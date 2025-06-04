@@ -1,72 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ContentLayout } from "../../components/organisms/ContentLayout";
 import { TableHeader } from "../../components/molecules/TableHeader";
 import { Cards } from "../../components/molecules/Cards";
 import TableData from "../../components/organisms/Table";
-import { Modals } from "../../components/organisms/Modals";
 import { deleteDataRegistration, getAllData } from "../../api/api";
 import { Link, useNavigate } from "react-router-dom";
-import { error } from "pdf-lib";
 
 export const Dashboard = () => {
   const [isData, setIsData] = useState([]);
+  const [statistik, setStatistik] = useState({
+    totalMenunggu: 0,
+    totalDitolak: 0,
+    totalDiterima: 0,
+    totalPendaftar: 0,
+  });
+  
   const navigate = useNavigate();
 
-  const [totalMenunggu, setTotalMenunggu] = useState(0);
-  const [totalDitolak, setTotalDitolak] = useState(0);
-  const [totalTerdaftar, setTotalTerdaftar] = useState(0);
-  const [totalDiterima, setTotalDiterima] = useState(0);
-  
-
-  useEffect(() => {
-    const fetchData = async () => {
-    try {
-        const data = await getAllData();
-        const menunggu = data.filter(item => item.status === "menunggu").length;
-        const ditolak = data.filter(item => item.status === "ditolak").length;
-        const pendaftar = data.length;
-        const diterima = data.filter(item => item.status === "diterima").length;
-
-        setTotalMenunggu(menunggu);
-        setTotalDitolak(ditolak);
-        setTotalTerdaftar(pendaftar);
-        setTotalDiterima(diterima);
-    } catch (err) {
-      console.error("Error Fetching Data", err);
-      
-    }
-  };
-
-fetchData();
-}, []);
-
-  const fetchAllDataRegistrasi = async () => {
+  const fetchAllData = async () => {
     try {
       const data = await getAllData();
-      const filteredData = data.filter(item => item.status === "menunggu");
-      
 
-      setIsData(filteredData);
+      const totalMenunggu = data.filter(item => item.status === "menunggu").length;
+      const totalDitolak = data.filter(item => item.status === "ditolak").length;
+      const totalDiterima = data.filter(item => item.status === "diterima").length;
+      const totalPendaftar = data.length;
+
+      const filteredMenunggu = data.filter(item => item.status === "menunggu");
+
+      setStatistik({ totalMenunggu, totalDitolak, totalDiterima, totalPendaftar });
+      setIsData(filteredMenunggu);
     } catch (err) {
-      console.error("error fetching data");
-      throw err;
+      console.error("Error fetching data", err);
     }
   };
 
   useEffect(() => {
-    fetchAllDataRegistrasi();
+    fetchAllData();
   }, []);
 
   const handleDelete = async (id) => {
     try {
-      const response = await deleteDataRegistration(id);
-      const data = await getAllData();
-      setIsData(data);
-    } catch (error) {
-      console.error("Error Delete data");
-      throw error;
+      await deleteDataRegistration(id);
+      fetchAllData();
+    } catch (err) {
+      console.error("Error Delete data", err);
     }
   };
+
   const handleEdit = (id) => {
     navigate(`/edit-data/${id}`);
   };
@@ -87,29 +68,29 @@ fetchData();
           </div>
           <div className="grid grid-rows-2 gap-2">
             <Cards
-              title={"Total Pendaftar"}
-              showTotalPendaftar={true}
-              totalPendaftar={totalTerdaftar}
+              title="Total Pendaftar"
+              showTotalPendaftar
+              totalPendaftar={statistik.totalPendaftar}
               className={"bg-slate-100 "}
             />
             <Cards
-              title={"Siswa DIterima"}
-              showTotalPendaftar={true}
-              totalPendaftar={totalDiterima}
+              title="Siswa DIterima"
+              showTotalPendaftar
+              totalPendaftar={statistik.totalDiterima}
               className={"bg-slate-100 "}
             />
           </div>
           <div className="grid grid-rows-2 gap-2">
             <Cards
-              title={"Menunggu Proses"}
-              showTotalPendaftar={true}
-              totalPendaftar={totalMenunggu}
+              title="Menunggu Proses"
+              showTotalPendaftar
+              totalPendaftar={statistik.totalMenunggu}
               className={"bg-slate-100 "}
             />
             <Cards
-              title={"Siswa Ditolak"}
-              showTotalPendaftar={true}
-              totalPendaftar={totalDitolak}
+              title="Siswa Ditolak"
+              showTotalPendaftar
+              totalPendaftar={statistik.totalDitolak}
               className={"bg-slate-100 "}
             />
           </div>
@@ -131,7 +112,7 @@ fetchData();
         data={isData}
         onDelete={handleDelete}
         onEdit={handleEdit}
-       refreshData={fetchAllDataRegistrasi}
+       refreshData={fetchAllData}
       />
     </ContentLayout>
   );

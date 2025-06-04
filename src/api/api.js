@@ -1,15 +1,15 @@
 import axios from "axios";
-const API_URL = "https://ppdb.edunex.id/api"
 
+const API_URL = "https://ppdb.edunex.id/api";
+const multipartHeaders = { headers: { "Content-Type": "Multipart/form-data" } };
 
 //read
 export const getAllData = async () => {
   try {
-    const response = await axios.get(`${API_URL}/registration`);
-    // console.log("getAllData", response.data);
-    return response.data;
+    const { data } = await axios.get(`${API_URL}/registration`);
+    return data;
   } catch (err) {
-    console.error("error get api", err);
+    console.error("error fetching all data:", err.message);
     throw err;
   }
 };
@@ -17,39 +17,36 @@ export const getAllData = async () => {
 //edit and detail
 export const getDataById = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/registration/edit/${id}`);
-    // console.log("Get Data By ID", response.data);
-    return response.data;
-  } catch (error) {
-    console.error("Error GET API");
-    throw error;
+    const { data } = await axios.get(`${API_URL}/registration/edit/${id}`);
+    return data;
+  } catch (err) {
+    console.error("Error fetching registration by ID:", err.message);
+    throw err;
   }
 };
 
 //status
 export const getDataByIdStatus = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/registration/${id}`);
-    // console.log("Get Data By ID", response.data);
-    return response.data;
-  } catch (error) {
-    console.error("Error GET API");
-    throw error;
+    const { data } = await axios.get(`${API_URL}/registration/${id}`);
+    return data;
+  } catch (err) {
+    console.error("Error fetching data status:", err.message);
+    throw err;
   }
 };
 
 //create
 export const createDataRegistration = async (formData) => {
   try {
-    const response = await axios.post(
+    const { data } = await axios.post(
       `${API_URL}/registration/create`,
-      formData, {
-        headers: { "Content-Type": "multipart/form-data" }
-      }
+      formData,
+      multipartHeaders
     );
-    return response.data;
+    return data;
   } catch (err) {
-    console.error("error get api", err);
+    console.error("error creating registration data:", err.message);
     throw err;
   }
 };
@@ -57,19 +54,14 @@ export const createDataRegistration = async (formData) => {
 //edit
 export const editDataRegistration = async (id, formData) => {
   try {
-    const response = await axios.put(
+    const { data } = await axios.put(
       `${API_URL}/registration/edit/${id}`,
       formData,
-      {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      }
+      multipartHeaders
     );
-    // console.log("Edit data", response.data);
-    return response.data;
+    return data;
   } catch (err) {
-    console.error("error updating registration data", err);
+    console.error("error updating registration data:", err.message);
     throw err;
   }
 };
@@ -77,25 +69,24 @@ export const editDataRegistration = async (id, formData) => {
 //delete
 export const deleteDataRegistration = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/registration/delete/${id}`);
-    return response.data;
+    const { data } = await axios.delete(`${API_URL}/registration/delete/${id}`);
+    return data;
   } catch (err) {
-    console.error("error delete data", err);
+    console.error("error delete data:", err.message);
     throw err;
   }
 };
 
 export const statusDataRegistration = async (id, status) => {
   try {
-    const response = await axios.put(
+    const { data } = await axios.put(
       `${API_URL}/registration/${id}/status`,
       { status }, // Mengirim status dalam request body
       { headers: { "Content-Type": "application/json" } } // Pastikan format JSON
     );
-    return response.data;
+    return data;
   } catch (err) {
-    console.error("error status data", err);
+    console.error("error updating registration status:", err.message);
     throw err;
   }
 };
-

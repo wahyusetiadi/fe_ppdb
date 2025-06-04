@@ -15,7 +15,7 @@ export const DataRegistrasi = () => {
 
       setIsData(data);
     } catch (err) {
-      console.error("error fetching data");
+      console.error("error fetching data", err.message);
       throw err;
     }
   };

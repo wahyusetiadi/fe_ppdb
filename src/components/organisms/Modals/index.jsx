@@ -1,5 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import React from "react";
+import { formatDateIndonesia } from "../../../utils/dateUtils";
 
 export const Modals = ({
   idRegistration,
@@ -9,6 +10,7 @@ export const Modals = ({
   gender,
   religion,
   birthPlace,
+  birthDate,
   address,
   parentPhone,
   akte,
@@ -49,15 +51,15 @@ export const Modals = ({
       <div className="w-full">
         <form className="flex flex-col gap-4">
           {[
-            ["ID Pendaftaran", idRegistration],
-            ["Tanggal Registrasi", dibuat_tanggal],
-            ["Nama Lengkap", name],
-            ["Email aktif", email],
-            ["Jenis Kelamin", gender],
-            ["Agama", religion],
-            ["Tempat, Tanggal Lahir", birthPlace],
-            ["Alamat", address],
-            ["No. Telp Orang Tua", parentPhone],
+            ["ID Pendaftaran:", idRegistration],
+            ["Tanggal Registrasi:",formatDateIndonesia(dibuat_tanggal)],
+            ["Nama Lengkap:", name],
+            ["Email aktif:", email],
+            ["Jenis Kelamin:", gender],
+            ["Agama:", religion],
+            ["Tempat, Tanggal Lahir:",`${birthPlace}, ${formatDateIndonesia(birthDate)}`],
+            ["Alamat:", address],
+            ["No. Telp Orang Tua:", parentPhone],
           ].map(([label, value]) => (
             <div key={label}>
               <div className="flex gap-2">
